@@ -473,6 +473,61 @@
   }
   #draw-result span { color: var(--rust); font-weight: 600; }
 
+  /* ── TABLE DES MATIÈRES ── */
+  .toc {
+    border: 1px solid var(--border);
+    padding: 24px 28px;
+    margin-bottom: 48px;
+    background: var(--paper-mid);
+  }
+  .toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 16px;
+  }
+  .toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: toc-counter;
+  }
+  .toc ol li {
+    counter-increment: toc-counter;
+    display: grid;
+    grid-template-columns: 22px 1fr auto;
+    align-items: baseline;
+    gap: 0 8px;
+    padding: 5px 0;
+    border-bottom: 1px dotted var(--border-light);
+  }
+  .toc ol li:last-child { border-bottom: none; }
+  .toc ol li::before {
+    content: counter(toc-counter, upper-roman);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.72rem;
+    color: var(--border);
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .toc ol li a {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .toc ol li a:hover { color: var(--rust); }
+  .toc ol li .toc-tag {
+    font-size: 0.7rem;
+    color: var(--border);
+    white-space: nowrap;
+    font-style: italic;
+  }
+
   /* ── FEEDBACK GRID ── */
   .feedback-table {
     width: 100%;
@@ -555,8 +610,21 @@
     <div class="masthead-meta">Durée totale : 60 minutes &nbsp;·&nbsp; 3 participants &nbsp;·&nbsp; Rôles tirés au sort</div>
   </header>
 
-  <!-- SECTION 1 : FONDEMENTS -->
-  <section class="section">
+  <!-- TABLE DES MATIÈRES -->
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <ol>
+      <li><a href="#sec-fondements">Fondements et recommandations de la littérature</a><span class="toc-tag">Mécanismes pédagogiques</span></li>
+      <li><a href="#sec-chrono">Structure temporelle de la séance</a><span class="toc-tag">60 minutes</span></li>
+      <li><a href="#sec-roles">Description des rôles</a><span class="toc-tag">Thérapeute · Patient · Observateur</span></li>
+      <li><a href="#sec-tirage">Tirage au sort des rôles</a><span class="toc-tag">Outil interactif</span></li>
+      <li><a href="#sec-vignettes">Vignettes cliniques</a><span class="toc-tag">3 scénarios</span></li>
+      <li><a href="#sec-grille">Grille d'observation</a><span class="toc-tag">Pour l'observateur</span></li>
+      <li><a href="#sec-debrief">Axes pour le partage réflexif</a><span class="toc-tag">Débriefing</span></li>
+      <li><a href="#sec-refs">Références</a><span class="toc-tag">Bibliographie</span></li>
+    </ol>
+  </nav>
+  <section class="section" id="sec-fondements">
     <div class="section-label">I</div>
     <h2>Fondements et recommandations de la littérature</h2>
 
@@ -587,7 +655,7 @@
   <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
 
   <!-- SECTION 2 : STRUCTURE TEMPORELLE -->
-  <section class="section">
+  <section class="section" id="sec-chrono">
     <div class="section-label">II</div>
     <h2>Structure temporelle de la séance</h2>
 
@@ -629,7 +697,7 @@
   <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
 
   <!-- SECTION 3 : RÔLES -->
-  <section class="section">
+  <section class="section" id="sec-roles">
     <div class="section-label">III</div>
     <h2>Description des rôles</h2>
 
@@ -670,7 +738,7 @@
   <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
 
   <!-- SECTION 4 : TIRAGE AU SORT -->
-  <section class="section">
+  <section class="section" id="sec-tirage">
     <div class="section-label">IV</div>
     <h2>Tirage au sort des rôles</h2>
 
@@ -689,7 +757,7 @@
   <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
 
   <!-- SECTION 5 : VIGNETTES -->
-  <section class="section">
+  <section class="section" id="sec-vignettes">
     <div class="section-label">V</div>
     <h2>Vignettes cliniques</h2>
 
@@ -870,7 +938,7 @@
   <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
 
   <!-- SECTION 6 : GRILLE OBSERVATEUR -->
-  <section class="section">
+  <section class="section" id="sec-grille">
     <div class="section-label">VI</div>
     <h2>Grille d'observation pour l'observateur</h2>
 
@@ -922,7 +990,7 @@
   <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
 
   <!-- SECTION 7 : DÉBRIEFING RÉFLEXIF -->
-  <section class="section">
+  <section class="section" id="sec-debrief">
     <div class="section-label">VII</div>
     <h2>Axes pour le partage réflexif</h2>
 
@@ -1024,7 +1092,7 @@
   <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
 
   <!-- SECTION 8 : RÉFÉRENCES -->
-  <section class="section">
+  <section class="section" id="sec-refs">
     <div class="section-label">VIII</div>
     <h2>Références sélectionnées</h2>
     <p style="font-size:0.85rem; color:var(--ink-light); line-height:1.8;">
