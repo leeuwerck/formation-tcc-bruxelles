@@ -1,0 +1,1666 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jeu de rôle en autoformation TCC</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/smartquotes@2.3.2/dist/smartquotes.js"></script>
+    <style>
+      :root {
+        --ink: #1c1208;
+        --ink-light: #3d2e14;
+        --paper: #f5f0e8;
+        --paper-dark: #ede6d6;
+        --paper-mid: #f0ead8;
+        --rust: #8b3a1a;
+        --rust-light: #a84d2a;
+        --ochre: #b5842a;
+        --sage: #4a6741;
+        --slate: #3d4f5c;
+        --border: #c8b89a;
+        --border-light: #ddd0bb;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Source Serif 4", Georgia, serif;
+        font-size: 16px;
+        line-height: 1.7;
+      }
+      .page-wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 48px 32px 80px;
+      }
+
+      /* MASTHEAD */
+      .masthead {
+        text-align: center;
+        border-top: 3px double var(--border);
+        border-bottom: 3px double var(--border);
+        padding: 32px 0 28px;
+        margin-bottom: 32px;
+      }
+      .masthead::before {
+        content: "✦";
+        display: block;
+        font-size: 11px;
+        color: var(--border);
+        margin-bottom: 18px;
+        letter-spacing: 6px;
+      }
+      .masthead-kicker {
+        font-size: 11px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--rust);
+        margin-bottom: 14px;
+      }
+      .masthead h1 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--ink);
+        margin-bottom: 10px;
+      }
+      .masthead-sub {
+        font-family: "Playfair Display", Georgia, serif;
+        font-style: italic;
+        font-size: 1.1rem;
+        color: var(--ink-light);
+      }
+      .masthead-meta {
+        margin-top: 18px;
+        font-size: 0.78rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--border);
+      }
+
+      /* COLLAPSIBLE */
+      .collapsible {
+        margin-bottom: 5px;
+        border: 1px solid var(--border-light);
+      }
+      .collapsible-trigger {
+        width: 100%;
+        background: var(--paper-dark);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 15px 20px;
+        text-align: left;
+        transition: background 0.15s;
+      }
+      .collapsible-trigger:hover,
+      .collapsible.is-open .collapsible-trigger {
+        background: var(--border-light);
+      }
+      .collapsible-num {
+        font-family: "Playfair Display", serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--rust);
+        width: 26px;
+        flex-shrink: 0;
+      }
+      .collapsible-title {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 1.02rem;
+        font-weight: 600;
+        color: var(--ink);
+        flex: 1;
+      }
+      .collapsible-arrow {
+        font-size: 0.72rem;
+        color: var(--border);
+        transition: transform 0.2s;
+        flex-shrink: 0;
+      }
+      .collapsible.is-open .collapsible-arrow {
+        transform: rotate(180deg);
+      }
+      .collapsible-body {
+        display: none;
+        padding: 26px 26px 30px;
+        border-top: 1px solid var(--border-light);
+      }
+      .collapsible.is-open .collapsible-body {
+        display: block;
+      }
+
+      /* INNER TYPOGRAPHY */
+      .collapsible-body h3 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 1rem;
+        font-weight: 600;
+        font-style: italic;
+        color: var(--rust);
+        margin: 22px 0 10px;
+      }
+      .collapsible-body h3:first-child {
+        margin-top: 0;
+      }
+      .collapsible-body p {
+        margin-bottom: 13px;
+        font-size: 0.94rem;
+      }
+      .collapsible-body p:last-child {
+        margin-bottom: 0;
+      }
+
+      .callout {
+        background: var(--paper-dark);
+        border-left: 3px solid var(--rust);
+        padding: 13px 17px;
+        margin: 16px 0;
+        font-size: 0.89rem;
+        color: var(--ink-light);
+      }
+      .callout strong {
+        color: var(--rust);
+      }
+
+      /* CHRONO */
+      .chrono {
+        border: 1px solid var(--border);
+        margin: 18px 0;
+        overflow: hidden;
+      }
+      .chrono-head {
+        background: var(--rust);
+        color: white;
+        font-size: 0.73rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-weight: 600;
+        padding: 7px 13px;
+        display: grid;
+        grid-template-columns: 88px 1fr;
+      }
+      .chrono-row {
+        display: grid;
+        grid-template-columns: 88px 1fr;
+        border-bottom: 1px solid var(--border-light);
+      }
+      .chrono-row:last-child {
+        border-bottom: none;
+      }
+      .chrono-time {
+        background: var(--paper-dark);
+        padding: 10px 11px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--rust);
+        border-right: 1px solid var(--border-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        line-height: 1.3;
+      }
+      .chrono-desc {
+        padding: 10px 13px;
+        font-size: 0.87rem;
+      }
+      .chrono-desc em {
+        display: block;
+        font-size: 0.76rem;
+        color: var(--ink-light);
+        margin-top: 2px;
+        font-style: normal;
+        opacity: 0.8;
+      }
+
+      /* ROLES GRID */
+      .roles-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 13px;
+        margin: 18px 0;
+      }
+      .role-card {
+        border: 1px solid var(--border);
+        padding: 17px 15px;
+        background: var(--paper-mid);
+      }
+      .role-card::before {
+        content: attr(data-icon);
+        display: block;
+        font-size: 1.25rem;
+        margin-bottom: 8px;
+        opacity: 0.6;
+      }
+      .role-card h4 {
+        font-family: "Playfair Display", serif;
+        font-size: 0.93rem;
+        font-weight: 700;
+        color: var(--rust);
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .role-card ul {
+        padding-left: 15px;
+        font-size: 0.83rem;
+        color: var(--ink-light);
+        line-height: 1.6;
+      }
+      .role-card ul li {
+        margin-bottom: 3px;
+      }
+
+      /* ATTENTION LIST */
+      .attention-list {
+        list-style: none;
+        padding: 0;
+        margin: 14px 0;
+      }
+      .attention-list li {
+        padding: 8px 10px 8px 32px;
+        position: relative;
+        font-size: 0.89rem;
+        border-bottom: 1px dotted var(--border-light);
+        color: var(--ink-light);
+      }
+      .attention-list li:last-child {
+        border-bottom: none;
+      }
+      .attention-list li::before {
+        content: attr(data-symbol);
+        position: absolute;
+        left: 9px;
+        top: 8px;
+        font-size: 0.8rem;
+        color: var(--rust);
+      }
+
+      /* ══ ROLE ASSIGNMENT ENGINE ══ */
+      .assign-box {
+        border: 1px solid var(--border);
+        padding: 24px 22px;
+        background: var(--paper-mid);
+        margin-bottom: 18px;
+      }
+      .assign-box > p {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        color: var(--ink-light);
+        margin-bottom: 18px;
+        font-size: 0.93rem;
+      }
+      .btn-draw {
+        display: inline-block;
+        padding: 11px 30px;
+        background: var(--rust);
+        color: white;
+        font-family: "Source Serif 4", serif;
+        font-size: 0.82rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-bottom: 20px;
+      }
+      .btn-draw:hover {
+        background: var(--rust-light);
+      }
+      #assign-result {
+        font-size: 0.89rem;
+        color: var(--ink);
+        margin-bottom: 18px;
+        min-height: 22px;
+        font-style: italic;
+      }
+      #assign-result strong {
+        color: var(--rust);
+        font-style: normal;
+      }
+      .role-selector {
+        display: none;
+        gap: 9px;
+        flex-wrap: wrap;
+        margin-top: 4px;
+        align-items: center;
+      }
+      .role-selector.visible {
+        display: flex;
+      }
+      .role-selector-label {
+        font-size: 0.77rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--slate);
+        font-family: "Source Serif 4", serif;
+        margin-right: 4px;
+      }
+      .btn-role {
+        padding: 10px 22px;
+        background: var(--paper);
+        border: 1px solid var(--border);
+        font-family: "Playfair Display", serif;
+        font-size: 0.93rem;
+        font-weight: 600;
+        color: var(--ink);
+        cursor: pointer;
+        transition: all 0.18s;
+      }
+      .btn-role:hover {
+        background: var(--paper-dark);
+      }
+      .btn-role.active {
+        background: var(--rust);
+        color: white;
+        border-color: var(--rust);
+      }
+
+      /* ROLE MATERIAL */
+      #role-panel {
+        margin-top: 20px;
+      }
+      .role-material {
+        display: none;
+        border: 1px solid var(--border-light);
+        background: var(--paper);
+      }
+      .role-material.visible {
+        display: block;
+      }
+      .role-material-header {
+        background: var(--paper-dark);
+        border-bottom: 1px solid var(--border-light);
+        padding: 13px 19px;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+      }
+      .role-material-icon {
+        font-size: 1.05rem;
+        opacity: 0.7;
+      }
+      .role-material-title {
+        font-family: "Playfair Display", serif;
+        font-size: 0.98rem;
+        font-weight: 600;
+        font-style: italic;
+        color: var(--ink);
+      }
+      .role-material-body {
+        padding: 20px 22px 24px;
+      }
+      .role-material-body p {
+        font-size: 0.9rem;
+        margin-bottom: 13px;
+      }
+      .role-material-body h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 0.98rem;
+        font-weight: 600;
+        font-style: italic;
+        color: var(--rust);
+        margin: 20px 0 9px;
+      }
+      .role-material-body h3:first-child {
+        margin-top: 0;
+      }
+
+      /* TIMER */
+      .timer-panel {
+        background: var(--paper-mid);
+        border: 1px solid var(--border);
+        padding: 20px 20px 22px;
+        margin-top: 16px;
+      }
+      .timer-panel > p {
+        font-size: 0.88rem;
+        color: var(--ink-light);
+        margin-bottom: 14px;
+      }
+      #timer-display {
+        font-family: "Playfair Display", serif;
+        font-size: 2.6rem;
+        font-weight: 700;
+        color: var(--sage);
+        letter-spacing: 3px;
+        margin-bottom: 4px;
+        transition: color 0.4s;
+        line-height: 1;
+      }
+      #timer-display.warning {
+        color: var(--rust);
+      }
+      #timer-phase {
+        font-size: 0.76rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--slate);
+        margin-bottom: 14px;
+        min-height: 16px;
+      }
+      #timer-phase.warning {
+        color: var(--rust);
+        font-weight: 700;
+      }
+      .timer-progress {
+        height: 3px;
+        background: var(--border-light);
+        margin-bottom: 16px;
+      }
+      #timer-bar {
+        height: 100%;
+        background: var(--sage);
+        width: 0%;
+        transition:
+          width 1s linear,
+          background 0.4s;
+      }
+      #timer-bar.warning {
+        background: var(--rust);
+      }
+      .btn-timer {
+        padding: 9px 22px;
+        background: var(--sage);
+        color: white;
+        font-family: "Source Serif 4", serif;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-right: 7px;
+      }
+      .btn-timer:hover {
+        background: #3a5332;
+      }
+      .btn-timer.stop {
+        background: var(--rust);
+      }
+      .btn-timer.stop:hover {
+        background: var(--rust-light);
+      }
+      .obs-phases {
+        margin-top: 16px;
+        border-top: 1px solid var(--border-light);
+        padding-top: 14px;
+      }
+      .obs-phase-item {
+        display: flex;
+        gap: 11px;
+        align-items: flex-start;
+        padding: 7px 0;
+        border-bottom: 1px dotted var(--border-light);
+        font-size: 0.85rem;
+        color: var(--ink-light);
+        opacity: 0.45;
+        transition: opacity 0.3s;
+      }
+      .obs-phase-item:last-child {
+        border-bottom: none;
+      }
+      .obs-phase-item.active {
+        opacity: 1;
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .obs-phase-item.done {
+        opacity: 0.35;
+        text-decoration: line-through;
+      }
+      .obs-phase-time {
+        font-variant-numeric: tabular-nums;
+        color: var(--rust);
+        font-weight: 600;
+        min-width: 48px;
+      }
+
+      /* DISCLOSURES */
+      details.disclosure {
+        margin: 11px 0;
+      }
+      details.disclosure summary {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+        padding: 8px 12px;
+        border: 1px solid var(--border-light);
+        background: var(--paper-dark);
+        font-size: 0.71rem;
+        font-weight: 600;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: var(--ink-light);
+        transition: background 0.15s;
+      }
+      details.disclosure summary::-webkit-details-marker {
+        display: none;
+      }
+      details.disclosure summary:hover {
+        background: var(--border-light);
+        color: var(--ink);
+      }
+      details.disclosure[open] summary {
+        border-bottom: 1px solid var(--border-light);
+        color: var(--rust);
+      }
+      details.disclosure .disc-icon {
+        width: 14px;
+        height: 14px;
+        border: 1px solid currentColor;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 9px;
+        transition: transform 0.2s;
+      }
+      details.disclosure[open] .disc-icon {
+        transform: rotate(45deg);
+      }
+      details.disclosure .disc-content {
+        border: 1px solid var(--border-light);
+        border-top: none;
+      }
+
+      /* VIGNETTE CARDS */
+      .vignette {
+        border: 1px solid var(--border);
+        margin: 20px 0;
+        overflow: hidden;
+      }
+      .vignette-header {
+        background: var(--paper-dark);
+        border-bottom: 1px solid var(--border);
+        padding: 12px 17px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 11px;
+      }
+      .vignette-num {
+        font-family: "Playfair Display", serif;
+        font-size: 0.74rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--rust);
+      }
+      .vignette-title {
+        font-family: "Playfair Display", serif;
+        font-size: 0.96rem;
+        font-weight: 600;
+        font-style: italic;
+        color: var(--ink);
+        flex: 1;
+      }
+      .vignette-tag {
+        font-size: 0.69rem;
+        background: var(--rust);
+        color: white;
+        padding: 3px 8px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .vignette-body {
+        padding: 17px 19px;
+      }
+      .vignette-body p {
+        font-size: 0.89rem;
+        margin-bottom: 12px;
+      }
+      .vignette-scenario {
+        background: #f9f4ec;
+        border-left: 2px solid var(--ochre);
+        padding: 12px 14px;
+        margin: 13px 0;
+        font-style: italic;
+        font-size: 0.88rem;
+        color: var(--ink-light);
+      }
+      .vignette-scenario strong {
+        font-style: normal;
+        color: var(--ochre);
+        display: block;
+        font-size: 0.71rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+        font-family: "Source Serif 4", serif;
+      }
+      .vignette-tips {
+        margin-top: 13px;
+        padding-top: 11px;
+        border-top: 1px dashed var(--border-light);
+      }
+      .vignette-tips-label {
+        font-size: 0.69rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--sage);
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .vignette-tips ul {
+        padding-left: 16px;
+        font-size: 0.84rem;
+        color: var(--ink-light);
+        line-height: 1.6;
+      }
+      .vignette-tips ul li {
+        margin-bottom: 4px;
+      }
+
+      /* AXES GRID */
+      .axes-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 11px;
+        margin: 14px 0;
+      }
+      .axe-item {
+        border: 1px solid var(--border-light);
+        padding: 13px 14px;
+        background: var(--paper-mid);
+      }
+      .axe-cat {
+        font-size: 0.68rem;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--slate);
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      .axe-question {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 0.92rem;
+        color: var(--ink);
+        line-height: 1.44;
+      }
+
+      /* FEEDBACK TABLE */
+      .feedback-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 16px 0;
+        font-size: 0.85rem;
+      }
+      .feedback-table th {
+        background: var(--paper-dark);
+        border: 1px solid var(--border);
+        padding: 8px 10px;
+        font-family: "Playfair Display", serif;
+        font-weight: 600;
+        font-style: italic;
+        color: var(--ink);
+        text-align: left;
+      }
+      .feedback-table td {
+        border: 1px solid var(--border-light);
+        padding: 8px 10px;
+        vertical-align: top;
+        color: var(--ink-light);
+        line-height: 1.5;
+      }
+      .feedback-table tr:nth-child(even) td {
+        background: var(--paper-mid);
+      }
+
+      @media (max-width: 640px) {
+        .roles-grid {
+          grid-template-columns: 1fr;
+        }
+        .axes-grid {
+          grid-template-columns: 1fr;
+        }
+        .page-wrap {
+          padding: 22px 15px 56px;
+        }
+        .masthead h1 {
+          font-size: 1.75rem;
+        }
+        #timer-display {
+          font-size: 2rem;
+        }
+      }
+      @media print {
+        .collapsible-body {
+          display: block !important;
+        }
+        .btn-draw,
+        .btn-role,
+        .btn-timer {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrap">
+      <header class="masthead">
+        <div class="masthead-kicker">Autoformation TCC — Groupe de pairs</div>
+        <h1>Séance de jeu de rôle</h1>
+        <div class="masthead-sub">Guide méthodologique et matériel clinique</div>
+        <div class="masthead-meta">
+          Durée totale : 1 h 30 &nbsp;·&nbsp; 3 participants &nbsp;·&nbsp; Rôles tirés au sort
+        </div>
+      </header>
+
+      <!-- I. FONDEMENTS -->
+      <div class="collapsible" id="sec-fondements">
+        <button class="collapsible-trigger" onclick="toggleSection('sec-fondements')">
+          <span class="collapsible-num">I</span>
+          <span class="collapsible-title">Fondements et recommandations de la littérature</span>
+          <span class="collapsible-arrow">▼</span>
+        </button>
+        <div class="collapsible-body">
+          <p>
+            Le jeu de rôle est reconnu dans la littérature sur la formation en TCC comme l'une des modalités
+            d'apprentissage actif les plus efficaces pour développer des compétences procédurales — c'est-à-dire la
+            capacité à mettre en œuvre des techniques en situation réelle (Bennett-Levy et al., 2009 ; Rønning &amp;
+            Bjørkly, 2019). Par opposition aux approches passives (lecture, conférence), la répétition comportementale
+            en jeu de rôle permet l'intégration de savoirs déclaratifs et procéduraux.
+          </p>
+          <div class="callout">
+            <strong>Point d'ancrage théorique :</strong> Bennett-Levy et al. (2009) distinguent l'apprentissage
+            déclaratif (savoir que) de l'apprentissage procédural (savoir comment faire). Le jeu de rôle est la méthode
+            la mieux adaptée au développement du second registre — celui qui détermine la qualité réelle de la pratique
+            clinique.
+          </div>
+          <h3>Points d'attention spécifiques à l'autoformation</h3>
+          <ul class="attention-list">
+            <li data-symbol="◈">
+              Absence de superviseur : les retours reposent entièrement sur les pairs. Il est recommandé de s'appuyer
+              sur des axes d'observation prédéfinis pour structurer le débriefing et éviter les feedbacks trop généraux
+              ou trop personnels.
+            </li>
+            <li data-symbol="◈">
+              Le rôle du patient peut être émotionnellement engageant. Chaque participant doit se sentir libre
+              d'interrompre ou d'ajuster l'intensité du scénario. Un signal convenu ("pause") peut être utile.
+            </li>
+            <li data-symbol="◈">
+              Les vignettes choisies doivent rester émotionnellement gérables — éviter les thématiques traumatiques ou
+              trop proches de situations personnelles connues du groupe.
+            </li>
+            <li data-symbol="◈">
+              La rotation systématique des rôles à chaque séance est recommandée pour que chacun intègre les trois
+              perspectives (Crowe, 2014 ; Rønning &amp; Bjørkly, 2019).
+            </li>
+            <li data-symbol="◈">
+              La brièveté des séquences de jeu de rôle (20–25 min) est préférable — elle limite la fatigue et maintient
+              la qualité de l'engagement.
+            </li>
+          </ul>
+          <h3>Rôle de l'observateur</h3>
+          <p>
+            L'observateur n'est pas spectateur passif : son rôle est documenté comme pédagogiquement aussi riche que
+            celui du thérapeute (Rønning &amp; Bjørkly, 2019). Il bénéficie d'une position méta qui développe la
+            capacité de supervision de soi. Pour être utile, l'observation doit être orientée par des tâches spécifiques
+            définies avant le début du jeu de rôle.
+          </p>
+        </div>
+      </div>
+
+      <!-- II. STRUCTURE TEMPORELLE -->
+      <div class="collapsible" id="sec-chrono">
+        <button class="collapsible-trigger" onclick="toggleSection('sec-chrono')">
+          <span class="collapsible-num">II</span>
+          <span class="collapsible-title">Structure temporelle de la séance (1 h 30)</span>
+          <span class="collapsible-arrow">▼</span>
+        </button>
+        <div class="collapsible-body">
+          <p>
+            La répartition suivante est conçue pour une séance de 90 minutes. Elle inclut deux temps de jeu de rôle
+            distincts et un débriefing approfondi.
+          </p>
+          <div class="chrono">
+            <div class="chrono-head"><span>Durée</span><span>Phase</span></div>
+            <div class="chrono-row">
+              <div class="chrono-time">0–10 min</div>
+              <div class="chrono-desc">
+                <strong>Mise en place</strong
+                ><em
+                  >Choix collectif de la vignette · Tirage au sort des rôles · Lecture individuelle du matériel selon le
+                  rôle</em
+                >
+              </div>
+            </div>
+            <div class="chrono-row">
+              <div class="chrono-time">10–15 min</div>
+              <div class="chrono-desc">
+                <strong>Briefing des rôles</strong
+                ><em
+                  >Le thérapeute formule son intention · L'observateur choisit ses axes · Le patient s'imprègne du
+                  personnage</em
+                >
+              </div>
+            </div>
+            <div class="chrono-row">
+              <div class="chrono-time">15–40 min</div>
+              <div class="chrono-desc">
+                <strong>Jeu de rôle — 1re partie</strong
+                ><em>25 minutes de simulation · L'observateur prend des notes structurées</em>
+              </div>
+            </div>
+            <div class="chrono-row">
+              <div class="chrono-time">40–50 min</div>
+              <div class="chrono-desc">
+                <strong>Pause et réorientation</strong
+                ><em
+                  >Sortie de rôle · Chacun nomme son état · Le thérapeute reformule son intention pour la 2e partie</em
+                >
+              </div>
+            </div>
+            <div class="chrono-row">
+              <div class="chrono-time">50–70 min</div>
+              <div class="chrono-desc">
+                <strong>Jeu de rôle — 2e partie</strong
+                ><em>20 minutes · Reprise ou continuation avec un angle ou une technique différente</em>
+              </div>
+            </div>
+            <div class="chrono-row">
+              <div class="chrono-time">70–75 min</div>
+              <div class="chrono-desc">
+                <strong>Sortie de rôle définitive</strong
+                ><em>Signal collectif · Décompression · Chacun revient à lui-même avant le débriefing</em>
+              </div>
+            </div>
+            <div class="chrono-row">
+              <div class="chrono-time">75–85 min</div>
+              <div class="chrono-desc">
+                <strong>Débriefing réflexif</strong><em>Thérapeute → Patient → Observateur → discussion collective</em>
+              </div>
+            </div>
+            <div class="chrono-row">
+              <div class="chrono-time">85–90 min</div>
+              <div class="chrono-desc">
+                <strong>Clôture et méta-réflexion</strong
+                ><em>Un mot par personne sur ce qu'elle retient · Point pour la prochaine séance</em>
+              </div>
+            </div>
+          </div>
+          <div class="callout">
+            <strong>Ordre du débriefing :</strong> La littérature recommande de donner la parole en premier au
+            thérapeute — pour éviter que le retour de l'observateur ne colonise sa propre réflexivité. L'auto-évaluation
+            précède le feedback externe.
+          </div>
+        </div>
+      </div>
+
+      <!-- III. TIRAGE + MATÉRIEL PAR RÔLE -->
+      <div class="collapsible" id="sec-roles">
+        <button class="collapsible-trigger" onclick="toggleSection('sec-roles')">
+          <span class="collapsible-num">III</span>
+          <span class="collapsible-title">Tirage des rôles et matériel par participant</span>
+          <span class="collapsible-arrow">▼</span>
+        </button>
+        <div class="collapsible-body">
+          <div class="assign-box">
+            <p>
+              Choisissez d'abord une vignette collectivement (section V), puis tirez les rôles au sort. Chaque
+              participant clique ensuite sur son rôle pour accéder uniquement à son matériel.
+            </p>
+            <button class="btn-draw" onclick="drawRoles()">Tirer les rôles au sort</button>
+            <div id="assign-result"></div>
+            <div class="role-selector" id="role-selector">
+              <span class="role-selector-label">Je suis :</span>
+              <button class="btn-role" onclick="showRole('therapeute')">◎ Psychothérapeute</button>
+              <button class="btn-role" onclick="showRole('patient')">◑ Patient</button>
+              <button class="btn-role" onclick="showRole('observateur')">◻ Observateur</button>
+            </div>
+          </div>
+
+          <div id="role-panel">
+            <!-- THÉRAPEUTE -->
+            <div class="role-material" id="mat-therapeute">
+              <div class="role-material-header">
+                <span class="role-material-icon">◎</span>
+                <span class="role-material-title">Matériel du psychothérapeute</span>
+              </div>
+              <div class="role-material-body">
+                <p>
+                  Vous menez la séance. Avant de commencer, formulez un objectif clair pour les 25 premières minutes.
+                  Vous pouvez dire "pause" à tout moment pour réfléchir ou changer d'approche — c'est un droit
+                  pédagogique, pas un aveu d'échec.
+                </p>
+                <h3>Votre rôle en détail</h3>
+                <ul class="attention-list">
+                  <li data-symbol="◈">Formulez un objectif avant de commencer — partagez-le avec l'observateur</li>
+                  <li data-symbol="◈">Appliquez les techniques TCC de façon adaptée au patient et au contexte</li>
+                  <li data-symbol="◈">Gérez le cadre, le temps et la relation thérapeutique</li>
+                  <li data-symbol="◈">
+                    Notez mentalement vos hésitations — elles seront la matière première du débriefing
+                  </li>
+                  <li data-symbol="◈">Lors de la pause (min 40), reformulez votre intention pour la 2e partie</li>
+                </ul>
+                <h3>Votre vignette — ouvrez uniquement celle choisie par le groupe</h3>
+                <details class="disclosure">
+                  <summary><span class="disc-icon">+</span>Vignette I — Conditions de prise de rendez-vous</summary>
+                  <div class="disc-content">
+                    <div class="vignette-scenario">
+                      <strong>Ce que le thérapeute sait avant la séance</strong>
+                      Le médecin généraliste a transmis un mot bref : "Patient de 38 ans, ingénieur, vient me voir
+                      depuis trois mois pour fatigue chronique et troubles du sommeil. Bilan somatique négatif. A perdu
+                      4 kg. Évoque des difficultés professionnelles et un sentiment de ne plus y arriver. Méfiant
+                      vis-à-vis de la psychiatrie, a accepté de consulter un psychologue après insistance. Pas
+                      d'antécédents psychiatriques connus. Pas d'idées suicidaires exprimées."<br /><br />
+                      Pas de questionnaire préalable. La séance commence dans un bureau sobre ; le patient est ponctuel.
+                    </div>
+                  </div>
+                </details>
+                <details class="disclosure">
+                  <summary><span class="disc-icon">+</span>Vignette II — Conditions de prise de rendez-vous</summary>
+                  <div class="disc-content">
+                    <div class="vignette-scenario">
+                      <strong>Ce que le thérapeute sait avant la séance</strong>
+                      Lors de l'appel téléphonique, la patiente a dit : "J'ai des problèmes d'anxiété en public, ça dure
+                      depuis longtemps mais là ça empire. Je travaille dans la recherche et ça commence à poser des
+                      problèmes pour ma carrière." Elle a posé deux questions avant de prendre rendez-vous : "Est-ce que
+                      vous travaillez avec des chercheurs ?" et "Est-ce que la TCC, ça marche vraiment pour ce genre de
+                      problème ?". Sa voix était posée, précise. Elle a demandé un créneau en fin de journée.
+                    </div>
+                  </div>
+                </details>
+                <details class="disclosure">
+                  <summary><span class="disc-icon">+</span>Vignette III — Contexte clinique préalable</summary>
+                  <div class="disc-content">
+                    <div class="vignette-scenario">
+                      <strong>Ce que le thérapeute sait de la situation</strong>
+                      Antoine, 45 ans, cadre commercial dans une multinationale. Adressé par son médecin du travail
+                      après un arrêt de six semaines pour burn-out. Les huit séances précédentes ont permis d'identifier
+                      un schéma central d'exigence et de contrôle — il applique les techniques comme des tâches à
+                      réussir.<br /><br />
+                      La semaine passée, il a tenté une activation comportementale (reprendre la course à pied) et a
+                      abandonné après 800 mètres, qu'il interprète comme un nouvel échec. Sa femme lui a dit qu'il avait
+                      l'air "moins tendu" — information qu'il a balayée.
+                    </div>
+                  </div>
+                </details>
+                <h3>Au débriefing, vous parlerez en premier</h3>
+                <ul class="attention-list">
+                  <li data-symbol="◈">Quel était mon objectif ? L'ai-je maintenu ?</li>
+                  <li data-symbol="◈">Y a-t-il eu un moment où j'ai hésité ou changé de cap ?</li>
+                  <li data-symbol="◈">Qu'est-ce que ce patient a provoqué en moi ?</li>
+                  <li data-symbol="◈">Qu'est-ce que j'ai bien fait ? (répondre sans minimiser)</li>
+                  <li data-symbol="◈">Qu'aurais-je voulu faire différemment ?</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- PATIENT -->
+            <div class="role-material" id="mat-patient">
+              <div class="role-material-header">
+                <span class="role-material-icon">◑</span>
+                <span class="role-material-title">Matériel du patient</span>
+              </div>
+              <div class="role-material-body">
+                <p>
+                  Vous incarnez le patient. Lisez uniquement la vignette choisie par le groupe. Ne lisez pas le matériel
+                  du thérapeute — votre spontanéité dans le rôle en dépend directement.
+                </p>
+                <h3>Votre rôle en détail</h3>
+                <ul class="attention-list">
+                  <li data-symbol="◈">
+                    Incarnez la vignette sans excès dramatique — restez dans le registre du cliniquement plausible
+                  </li>
+                  <li data-symbol="◈">Réagissez de façon authentique à ce que le thérapeute vous propose</li>
+                  <li data-symbol="◈">Ne facilitez pas sa tâche — restez fidèle à la logique du personnage</li>
+                  <li data-symbol="◈">Vous pouvez moduler l'intensité si la situation devient trop chargée</li>
+                  <li data-symbol="◈">Au débriefing, parlez de l'expérience du rôle, pas de vous-même directement</li>
+                </ul>
+                <h3>Votre vignette — ouvrez uniquement celle choisie par le groupe</h3>
+                <details class="disclosure">
+                  <summary><span class="disc-icon">+</span>Vignette I — Situation complète du patient</summary>
+                  <div class="disc-content">
+                    <div class="vignette-scenario">
+                      <strong>Qui tu es et ce que tu vis</strong>
+                      Tu t'appelles Marc, 38 ans, ingénieur dans une entreprise de construction. Père de deux enfants (7
+                      et 10 ans). Depuis huit mois environ, tu te sens "vide" — une fatigue que le sommeil ne répare
+                      pas, une incapacité à éprouver du plaisir dans des activités qui t'importaient (sport, bricolage,
+                      sorties en famille). Tu continues à fonctionner au travail — tu n'as posé aucun arrêt — mais tu
+                      t'y épuises plus vite, tu fais des erreurs inhabituelles, et tu évites de plus en plus les
+                      réunions en préférant travailler seul.<br /><br />
+                      Tu te lèves chaque matin avec la conviction que la journée sera "trop lourde". Le soir, tu
+                      t'endors rapidement mais te réveilles entre 3h et 4h, avec des pensées circulaires autour du
+                      travail et de ta valeur en tant que père. Tu manges peu. Tu n'as pas de pensées suicidaires, mais
+                      parfois l'idée que "ce serait plus simple de ne pas être là" traverse ton esprit sans que tu te
+                      l'accordes vraiment.<br /><br />
+                      Tu n'as jamais consulté un psy. Tu es là parce que ton médecin a insisté. Tu n'es pas hostile,
+                      mais tu es prudent : tu observes si l'interlocuteur mérite ta confiance avant de t'ouvrir. Tu
+                      parles peu spontanément.
+                    </div>
+                    <div class="vignette-scenario">
+                      <strong>Pensées et croyances à incarner</strong>
+                      Pensée automatique : "Je devrais être capable de gérer ça seul." Croyance sous-jacente : "Avoir
+                      besoin d'aide, c'est une faiblesse." Si le thérapeute va trop vite ou propose une explication
+                      avant de t'avoir vraiment entendu, tu te refermes légèrement.
+                    </div>
+                  </div>
+                </details>
+                <details class="disclosure">
+                  <summary><span class="disc-icon">+</span>Vignette II — Situation complète du patient</summary>
+                  <div class="disc-content">
+                    <div class="vignette-scenario">
+                      <strong>Qui tu es et ce que tu vis</strong>
+                      Tu t'appelles Sophie, 29 ans, doctorante en quatrième année de thèse en biologie moléculaire.
+                      Brillante, reconnue dans ton laboratoire, mais depuis plusieurs mois l'anxiété lors des situations
+                      académiques collectives a atteint un niveau qui t'épuise. Les séminaires, les réunions d'équipe,
+                      les repas de labo, les congrès — toutes ces situations déclenchent une anticipation anxieuse qui
+                      peut commencer plusieurs jours à l'avance.<br /><br />
+                      En situation, tu ressens une accélération cardiaque marquée, des rougissements que tu perçois
+                      comme très visibles, une sensation de "blanc" dans les idées. Tu as développé des stratégies
+                      d'évitement élaborées : tu prépares tes interventions par écrit à l'avance, tu te places au fond
+                      de la salle, tu arrives en retard aux réunions, tu déclinesles repas collectifs sous prétexte de
+                      travail. Le déclencheur de cette consultation : dans six semaines, tu as une soutenance de
+                      mi-thèse devant un jury de cinq personnes.
+                    </div>
+                    <div class="vignette-scenario">
+                      <strong>Comment tu te comportes dans la séance</strong>
+                      Tu es articulée, précise, tu utilises un vocabulaire riche. Tu poses des questions sur la méthode
+                      avant même que le thérapeute ait commencé. Tu peux avoir tendance à intellectualiser — décrire ton
+                      anxiété comme un objet d'étude plutôt qu'à la ressentir. Pensée automatique centrale : "S'ils
+                      voient que j'ai peur, ils sauront que je ne suis pas à ma place."
+                    </div>
+                  </div>
+                </details>
+                <details class="disclosure">
+                  <summary><span class="disc-icon">+</span>Vignette III — Situation complète du patient</summary>
+                  <div class="disc-content">
+                    <div class="vignette-scenario">
+                      <strong>Qui tu es dans cette séance</strong>
+                      Tu es Antoine. Tu arrives avec tes fiches de suivi parfaitement remplies, classées par date. Tu es
+                      ponctuel, tu salues poliment. Mais sous cette surface organisée, il y a une tension : tu te
+                      demandes si tu "travailles bien" la thérapie. Tu t'es dit que si dans dix séances tu n'allais pas
+                      "nettement mieux", c'est que tu n'y mettais pas assez du tien.<br /><br />
+                      Quand le thérapeute valide quelque chose que tu ressens, tu te détends une fraction de seconde —
+                      puis tu te réimposes immédiatement une exigence.
+                    </div>
+                    <div class="vignette-scenario">
+                      <strong>Pensées et croyances à incarner</strong>
+                      Pensée automatique : "Si je ne guéris pas assez vite, c'est que je ne fais pas assez d'efforts."
+                      Règle sous-jacente : "Ma valeur dépend de mes résultats — y compris en thérapie." La thérapie est
+                      devenue un nouveau domaine où tu peux réussir ou échouer.
+                    </div>
+                  </div>
+                </details>
+                <h3>Au débriefing, vous parlerez en deuxième</h3>
+                <ul class="attention-list">
+                  <li data-symbol="◈">Comment ai-je vécu d'incarner ce patient ? Qu'est-ce qui m'a surpris ?</li>
+                  <li data-symbol="◈">À quel(s) moment(s) ai-je eu l'impression d'être vraiment entendu ?</li>
+                  <li data-symbol="◈">
+                    Y a-t-il eu quelque chose que j'attendais du thérapeute et qui n'est pas venu ?
+                  </li>
+                  <li data-symbol="◈">Qu'ai-je appris sur la logique interne de ce profil clinique ?</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- OBSERVATEUR -->
+            <div class="role-material" id="mat-observateur">
+              <div class="role-material-header">
+                <span class="role-material-icon">◻</span>
+                <span class="role-material-title">Matériel de l'observateur</span>
+              </div>
+              <div class="role-material-body">
+                <p>
+                  Vous ne participez pas au jeu de rôle. Votre tâche est d'observer, de noter des faits comportementaux
+                  précis, de gérer le temps de la séance, et de structurer le débriefing. Choisissez 2 à 3 axes
+                  d'observation ci-dessous <em>avant</em> de démarrer le timer.
+                </p>
+
+                <h3>Axes d'observation — choisissez-en 2 ou 3</h3>
+                <div class="axes-grid">
+                  <div class="axe-item">
+                    <div class="axe-cat">Alliance / relation</div>
+                    <div class="axe-question">
+                      Ton, posture, validation, synchronisation verbale. Le patient se sent-il compris ?
+                    </div>
+                  </div>
+                  <div class="axe-item">
+                    <div class="axe-cat">Structure de séance</div>
+                    <div class="axe-question">
+                      Direction claire, gestion du temps, lien avec les objectifs annoncés.
+                    </div>
+                  </div>
+                  <div class="axe-item">
+                    <div class="axe-cat">Questionnement socratique</div>
+                    <div class="axe-question">
+                      Questions ouvertes, guidage sans imposition, espace laissé au patient.
+                    </div>
+                  </div>
+                  <div class="axe-item">
+                    <div class="axe-cat">Conceptualisation</div>
+                    <div class="axe-question">Lien cognition–émotion–comportement visible dans le travail.</div>
+                  </div>
+                  <div class="axe-item">
+                    <div class="axe-cat">Flexibilité technique</div>
+                    <div class="axe-question">Ajustements face aux résistances ou à l'inattendu.</div>
+                  </div>
+                  <div class="axe-item">
+                    <div class="axe-cat">Gestion émotionnelle</div>
+                    <div class="axe-question">Régulation du thérapeute, tempo, utilisation des silences.</div>
+                  </div>
+                </div>
+
+                <h3>Timer de séance</h3>
+                <p>
+                  Cliquez sur Démarrer au moment où le jeu de rôle commence. Le timer passe au rouge à chaque transition
+                  importante.
+                </p>
+
+                <div class="timer-panel">
+                  <div id="timer-display">00:00</div>
+                  <div id="timer-phase">En attente du démarrage</div>
+                  <div class="timer-progress"><div id="timer-bar"></div></div>
+                  <button class="btn-timer" id="btn-start" onclick="startTimer()">▶ Démarrer</button>
+                  <button class="btn-timer stop" id="btn-stop" onclick="stopTimer()" style="display: none">
+                    ■ Arrêter
+                  </button>
+                  <div class="obs-phases" id="obs-phases">
+                    <div class="obs-phase-item" id="phase-0">
+                      <span class="obs-phase-time">0–10</span><span>Mise en place &amp; tirage des rôles</span>
+                    </div>
+                    <div class="obs-phase-item" id="phase-1">
+                      <span class="obs-phase-time">10–15</span><span>Briefing individuel par rôle</span>
+                    </div>
+                    <div class="obs-phase-item" id="phase-2">
+                      <span class="obs-phase-time">15–40</span><span>Jeu de rôle — 1re partie (25 min)</span>
+                    </div>
+                    <div class="obs-phase-item" id="phase-3">
+                      <span class="obs-phase-time">40–50</span><span>Pause, sortie de rôle, réorientation</span>
+                    </div>
+                    <div class="obs-phase-item" id="phase-4">
+                      <span class="obs-phase-time">50–70</span><span>Jeu de rôle — 2e partie (20 min)</span>
+                    </div>
+                    <div class="obs-phase-item" id="phase-5">
+                      <span class="obs-phase-time">70–75</span><span>Sortie de rôle définitive</span>
+                    </div>
+                    <div class="obs-phase-item" id="phase-6">
+                      <span class="obs-phase-time">75–85</span><span>Débriefing réflexif</span>
+                    </div>
+                    <div class="obs-phase-item" id="phase-7">
+                      <span class="obs-phase-time">85–90</span><span>Clôture et méta-réflexion</span>
+                    </div>
+                  </div>
+                </div>
+
+                <h3>Au débriefing, vous parlerez en troisième</h3>
+                <ul class="attention-list">
+                  <li data-symbol="◈">Commencez par les points forts — faits spécifiques, pas des généralités</li>
+                  <li data-symbol="◈">
+                    Formulez vos suggestions à la première personne : "j'aurais peut-être essayé…"
+                  </li>
+                  <li data-symbol="◈">Quels moments ou gestes spécifiques avez-vous notés ?</li>
+                  <li data-symbol="◈">Quelles alternatives techniques auraient pu être explorées ?</li>
+                  <li data-symbol="◈">Qu'est-ce que cette observation vous dit sur votre propre pratique ?</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- /role-panel -->
+        </div>
+      </div>
+
+      <!-- IV. DESCRIPTION GÉNÉRALE DES RÔLES -->
+      <div class="collapsible" id="sec-desc-roles">
+        <button class="collapsible-trigger" onclick="toggleSection('sec-desc-roles')">
+          <span class="collapsible-num">IV</span>
+          <span class="collapsible-title">Description générale des rôles</span>
+          <span class="collapsible-arrow">▼</span>
+        </button>
+        <div class="collapsible-body">
+          <div class="roles-grid">
+            <div class="role-card" data-icon="◎">
+              <h4>Psychothérapeute</h4>
+              <ul>
+                <li>Mène la séance avec un objectif formulé</li>
+                <li>Applique les techniques TCC de façon adaptée</li>
+                <li>Gère le cadre, le temps, la relation</li>
+                <li>Note mentalement ses hésitations</li>
+                <li>Peut "geler" la scène à tout moment</li>
+              </ul>
+            </div>
+            <div class="role-card" data-icon="◑">
+              <h4>Patient</h4>
+              <ul>
+                <li>Incarne la vignette sans excès dramatique</li>
+                <li>Réagit de façon authentique à la relation</li>
+                <li>Ne facilite pas la tâche du thérapeute</li>
+                <li>Peut moduler l'intensité si besoin</li>
+                <li>Se décentre après sur son vécu du rôle</li>
+              </ul>
+            </div>
+            <div class="role-card" data-icon="◻">
+              <h4>Observateur</h4>
+              <ul>
+                <li>Choisit 2–3 axes d'observation au préalable</li>
+                <li>Prend des notes factuelles et comportementales</li>
+                <li>Évite les jugements de valeur</li>
+                <li>Commence le feedback par les points forts</li>
+                <li>Gère le timer et anime la discussion collective</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- V. VIGNETTES CLINIQUES -->
+      <div class="collapsible" id="sec-vignettes">
+        <button class="collapsible-trigger" onclick="toggleSection('sec-vignettes')">
+          <span class="collapsible-num">V</span>
+          <span class="collapsible-title">Vignettes cliniques</span>
+          <span class="collapsible-arrow">▼</span>
+        </button>
+        <div class="collapsible-body">
+          <p>
+            Choisissez collectivement une vignette avant le tirage des rôles. Les vignettes I et II sont des premières
+            rencontres. La vignette III simule une séance avancée.
+          </p>
+          <div class="callout">
+            <strong>Protocole de lecture :</strong> une fois la vignette choisie et les rôles tirés au sort, chaque
+            participant ouvre uniquement l'accordéon correspondant à son rôle dans la section III. L'observateur n'ouvre
+            aucun accordéon de vignette.
+          </div>
+
+          <div class="vignette">
+            <div class="vignette-header">
+              <span class="vignette-num">Vignette I</span>
+              <span class="vignette-title">"Mon médecin m'a dit d'appeler"</span>
+              <span class="vignette-tag">1re rencontre — Dépression</span>
+            </div>
+            <div class="vignette-body">
+              <p>
+                <em>Contexte général (visible de tous) :</em> Première consultation. Le thérapeute reçoit un patient
+                adressé par son médecin généraliste. L'objectif d'une première rencontre en TCC est d'établir un contact
+                de qualité, de recueillir les informations permettant une première conceptualisation fonctionnelle, et
+                d'amorcer une alliance de travail — sans poser de diagnostic définitif ni proposer de techniques
+                prématurément.
+              </p>
+              <div class="vignette-tips">
+                <div class="vignette-tips-label">Pistes TCC — à consulter après le jeu de rôle</div>
+                <ul>
+                  <li>
+                    Valider l'expérience subjective avant toute conceptualisation (empathie comme condition préalable à
+                    l'alliance — Beck, 1979)
+                  </li>
+                  <li>Recueil de l'histoire du problème : début, évolution, facteurs déclenchants, maintien</li>
+                  <li>
+                    Explorer les sphères cognitives, comportementales et physiologiques — amorce du modèle
+                    tridimensionnel
+                  </li>
+                  <li>
+                    Identifier les évitements comportementaux comme facteur de maintien de l'humeur dépressive
+                    (Lewinsohn, 1974)
+                  </li>
+                  <li>Évaluer le risque suicidaire — nécessaire même si non exprimé spontanément</li>
+                  <li>
+                    Ne pas conclure trop vite : la méfiance envers l'aide est elle-même une donnée clinique centrale
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="vignette">
+            <div class="vignette-header">
+              <span class="vignette-num">Vignette II</span>
+              <span class="vignette-title">"Je viens surtout parce que ça devient ingérable"</span>
+              <span class="vignette-tag">1re rencontre — Anxiété sociale</span>
+            </div>
+            <div class="vignette-body">
+              <p>
+                <em>Contexte général (visible de tous) :</em> Première consultation, prise de rendez-vous spontanée.
+                L'objectif de la séance est d'établir une alliance, de réaliser un premier bilan fonctionnel et
+                d'amorcer une compréhension partagée du problème — sans aller jusqu'à la prescription de techniques.
+              </p>
+              <div class="vignette-tips">
+                <div class="vignette-tips-label">Pistes TCC — à consulter après le jeu de rôle</div>
+                <ul>
+                  <li>
+                    Recueillir la topographie complète : situations déclenchantes, réponses cognitives, émotionnelles,
+                    physiologiques et comportementales (modèle SECCA)
+                  </li>
+                  <li>
+                    Identifier les comportements d'évitement et de sécurité comme facteurs de maintien (Clark &amp;
+                    Wells, 1995 ; Rapee &amp; Heimberg, 1997)
+                  </li>
+                  <li>Repérer le biais d'auto-focalisation attentionnelle — central dans l'anxiété sociale</li>
+                  <li>
+                    Valider l'intellectualisation sans en faire un obstacle — c'est une stratégie d'adaptation, pas une
+                    résistance
+                  </li>
+                  <li>
+                    Ne pas proposer d'exposition dès la première séance — construire d'abord la conceptualisation
+                    partagée
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="vignette">
+            <div class="vignette-header">
+              <span class="vignette-num">Vignette III</span>
+              <span class="vignette-title">"Je me sens coupable de ne pas aller mieux"</span>
+              <span class="vignette-tag">Séance avancée — Perfectionnisme</span>
+            </div>
+            <div class="vignette-body">
+              <p>
+                <em>Contexte général (visible de tous) :</em> Huitième séance avec un patient suivi pour burn-out, chez
+                qui un perfectionnisme rigide et des schémas d'exigence envers soi-même dominent le tableau clinique. La
+                relation thérapeutique est établie mais mise à l'épreuve aujourd'hui. Le patient ouvre la séance par :
+                <em
+                  >"Je suis supposé aller mieux maintenant, non ? Je fais tout ce que vous me demandez. Pourquoi est-ce
+                  que je n'avance pas plus vite ?"</em
+                >
+              </p>
+              <div class="vignette-tips">
+                <div class="vignette-tips-label">Pistes TCC — à consulter après le jeu de rôle</div>
+                <ul>
+                  <li>
+                    Le schéma perfectionniste se joue dans la relation thérapeutique ici et maintenant — matériau
+                    clinique direct
+                  </li>
+                  <li>
+                    Psychoéducation sur le rythme du changement : différencier progrès visibles et changements
+                    structurels plus lents (Young, 1990)
+                  </li>
+                  <li>
+                    Identifier la règle "Ma valeur = mes résultats" par questionnement socratique plutôt qu'en la
+                    proposant
+                  </li>
+                  <li>
+                    Explorer le paradoxe : appliquer les techniques "parfaitement" reproduit la dynamique problématique
+                  </li>
+                  <li>
+                    Utiliser les données négligées (regard de sa femme, 800 mètres courus) comme évidences
+                    contradictoires
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VI. DÉBRIEFING -->
+      <div class="collapsible" id="sec-debrief">
+        <button class="collapsible-trigger" onclick="toggleSection('sec-debrief')">
+          <span class="collapsible-num">VI</span>
+          <span class="collapsible-title">Axes pour le partage réflexif</span>
+          <span class="collapsible-arrow">▼</span>
+        </button>
+        <div class="collapsible-body">
+          <p>
+            Le débriefing est le cœur pédagogique de la séance. Il suit l'ordre : thérapeute → patient → observateur →
+            discussion collective.
+          </p>
+          <div class="callout">
+            <strong>Règle du feedback :</strong> tout retour commence par un élément positif et spécifique. Les
+            suggestions sont formulées à la première personne ("j'aurais peut-être essayé…") et non comme des
+            prescriptions.
+          </div>
+
+          <h3>Voix du thérapeute</h3>
+          <div class="axes-grid">
+            <div class="axe-item">
+              <div class="axe-cat">Intention</div>
+              <div class="axe-question">Quel était mon objectif au début de la séance ? L'ai-je maintenu ?</div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Moment clé</div>
+              <div class="axe-question">Y a-t-il eu un moment où j'ai hésité ou changé de cap ? Pourquoi ?</div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Résonance</div>
+              <div class="axe-question">
+                Qu'est-ce que ce patient a provoqué en moi — pensées, émotions, impulsions ?
+              </div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Conceptualisation</div>
+              <div class="axe-question">
+                Comment ai-je compris ce qui se passait pour ce patient ? Cela a-t-il guidé mes choix ?
+              </div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Ce que je ferais autrement</div>
+              <div class="axe-question">Si je recommençais cette séance, qu'est-ce que je changerais ?</div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Point fort</div>
+              <div class="axe-question">Qu'est-ce que j'ai bien fait ? (répondre sans minimiser)</div>
+            </div>
+          </div>
+
+          <h3>Voix du patient</h3>
+          <div class="axes-grid">
+            <div class="axe-item">
+              <div class="axe-cat">Expérience du rôle</div>
+              <div class="axe-question">Comment ai-je vécu d'incarner ce patient ? Qu'est-ce qui m'a surpris ?</div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Moments de connexion</div>
+              <div class="axe-question">À quel(s) moment(s) ai-je eu l'impression d'être vraiment entendu ?</div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Ce qui m'a manqué</div>
+              <div class="axe-question">
+                Y a-t-il eu quelque chose que j'attendais du thérapeute et qui n'est pas venu ?
+              </div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Compréhension du patient</div>
+              <div class="axe-question">Qu'ai-je appris sur la logique interne de ce profil clinique ?</div>
+            </div>
+          </div>
+
+          <h3>Voix de l'observateur</h3>
+          <div class="axes-grid">
+            <div class="axe-item">
+              <div class="axe-cat">Faits observés</div>
+              <div class="axe-question">Quels moments ou gestes spécifiques ai-je notés ?</div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Points forts d'abord</div>
+              <div class="axe-question">Qu'est-ce qui a fonctionné dans la conduite de séance ?</div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Pistes d'enrichissement</div>
+              <div class="axe-question">Quelles alternatives techniques auraient pu être explorées ?</div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Ce que j'apprends</div>
+              <div class="axe-question">Qu'est-ce que cette observation me dit sur ma propre pratique ?</div>
+            </div>
+          </div>
+
+          <h3>Discussion collective</h3>
+          <div class="axes-grid">
+            <div class="axe-item">
+              <div class="axe-cat">Convergences</div>
+              <div class="axe-question">Qu'est-ce que les trois perspectives ont en commun ?</div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Divergences</div>
+              <div class="axe-question">Où nos lectures de la séance ont-elles différé ? Qu'est-ce que ça dit ?</div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Généralisation</div>
+              <div class="axe-question">
+                Qu'est-ce que ce jeu de rôle éclaire dans notre pratique quotidienne réelle ?
+              </div>
+            </div>
+            <div class="axe-item">
+              <div class="axe-cat">Prochaine séance</div>
+              <div class="axe-question">Quel thème ou technique voulons-nous approfondir la prochaine fois ?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VII. RÉFÉRENCES -->
+      <div class="collapsible" id="sec-refs">
+        <button class="collapsible-trigger" onclick="toggleSection('sec-refs')">
+          <span class="collapsible-num">VII</span>
+          <span class="collapsible-title">Références sélectionnées</span>
+          <span class="collapsible-arrow">▼</span>
+        </button>
+        <div class="collapsible-body">
+          <p style="font-size: 0.84rem; color: var(--ink-light); line-height: 1.95">
+            Bennett-Levy, J., McManus, F., Westling, B. E., &amp; Fennell, M. (2009). Acquiring and refining CBT skills
+            and competencies. <em>Behavioural and Cognitive Psychotherapy</em>, 37(1), 1–20.<br />
+            Clark, D. M., &amp; Wells, A. (1995). A cognitive model of social phobia. In R. Heimberg et al. (Eds.),
+            <em>Social Phobia</em>. Guilford Press.<br />
+            Crowe, A. (2014). Teaching psychotherapy skills with a semester-long role play.
+            <em>Journal of Psychotherapy Integration</em>, 24(3).<br />
+            Lewinsohn, P. M. (1974). A behavioral approach to depression. In R. J. Friedman &amp; M. M. Katz (Eds.),
+            <em>The Psychology of Depression</em>. Wiley.<br />
+            MHPSS Hub / Psychosocial Centre (2024).
+            <em>Role Play Guidance for Facilitators of MHPSS Trainings</em>.<br />
+            Prasko, J. et al. (2023). Role-playing in cognitive behavioral supervision.
+            <em>Neuroendocrinology Letters</em>, 44(2), 74–85.<br />
+            Rapee, R. M., &amp; Heimberg, R. G. (1997). A cognitive-behavioral model of anxiety in social phobia.
+            <em>Behaviour Research and Therapy</em>, 35(8), 741–756.<br />
+            Rønning, S. B., &amp; Bjørkly, S. (2019). The use of clinical role-play and reflection in learning
+            therapeutic communication skills in mental health education.
+            <em>Advances in Medical Education and Practice</em>, 10, 415–425.<br />
+            Young, J. E. (1990). <em>Cognitive Therapy for Personality Disorders: A Schema-Focused Approach</em>.
+            Professional Resource Exchange.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- /page-wrap -->
+
+    <script>
+      // Smartquotes
+      if (typeof smartquotes === "function") {
+        smartquotes()
+      }
+
+      // Collapsible sections
+      function toggleSection(id) {
+        document.getElementById(id).classList.toggle("is-open")
+      }
+
+      // Role draw
+      function drawRoles() {
+        const roles = ["Psychothérapeute", "Patient", "Observateur"]
+        const shuffled = [...roles].sort(() => Math.random() - 0.5)
+        const names = ["Participant A", "Participant B", "Participant C"]
+        const parts = names.map((n, i) => `<strong>${n}</strong> → ${shuffled[i]}`).join("&ensp;·&ensp;")
+        document.getElementById("assign-result").innerHTML = parts
+        document.getElementById("role-selector").classList.add("visible")
+        document.querySelectorAll(".btn-role").forEach((b) => b.classList.remove("active"))
+        document.querySelectorAll(".role-material").forEach((m) => m.classList.remove("visible"))
+      }
+
+      function showRole(role) {
+        document.querySelectorAll(".btn-role").forEach((b) => b.classList.remove("active"))
+        document.querySelectorAll(".role-material").forEach((m) => m.classList.remove("visible"))
+        const btnMap = { therapeute: 0, patient: 1, observateur: 2 }
+        const matMap = { therapeute: "mat-therapeute", patient: "mat-patient", observateur: "mat-observateur" }
+        document.querySelectorAll(".btn-role")[btnMap[role]].classList.add("active")
+        document.getElementById(matMap[role]).classList.add("visible")
+      }
+
+      // Timer — phases in minutes [start, end]
+      const PHASES = [
+        { label: "Mise en place", start: 0, end: 10, warn: false },
+        { label: "Briefing des rôles", start: 10, end: 15, warn: false },
+        { label: "Jeu de rôle — 1re partie", start: 15, end: 40, warn: false },
+        { label: "⚠ Pause — sortie de rôle", start: 40, end: 50, warn: true },
+        { label: "Jeu de rôle — 2e partie", start: 50, end: 70, warn: false },
+        { label: "⚠ Sortie de rôle", start: 70, end: 75, warn: true },
+        { label: "Débriefing réflexif", start: 75, end: 85, warn: false },
+        { label: "Clôture", start: 85, end: 90, warn: false },
+      ]
+      const TOTAL_SECS = 90 * 60
+
+      let timerInterval = null
+      let startTime = null
+
+      function startTimer() {
+        if (timerInterval) return
+        startTime = Date.now()
+        document.getElementById("btn-start").style.display = "none"
+        document.getElementById("btn-stop").style.display = "inline-block"
+        timerInterval = setInterval(tickTimer, 500)
+        tickTimer()
+      }
+
+      function stopTimer() {
+        clearInterval(timerInterval)
+        timerInterval = null
+        document.getElementById("btn-start").style.display = "inline-block"
+        document.getElementById("btn-stop").style.display = "none"
+        document.getElementById("timer-display").textContent = "00:00"
+        document.getElementById("timer-display").classList.remove("warning")
+        document.getElementById("timer-phase").textContent = "En attente du démarrage"
+        document.getElementById("timer-phase").classList.remove("warning")
+        document.getElementById("timer-bar").style.width = "0%"
+        document.getElementById("timer-bar").classList.remove("warning")
+        PHASES.forEach((_, i) => {
+          const el = document.getElementById("phase-" + i)
+          if (el) el.classList.remove("active", "done")
+        })
+      }
+
+      function tickTimer() {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000)
+        if (elapsed >= TOTAL_SECS) {
+          stopTimer()
+          return
+        }
+
+        const mins = Math.floor(elapsed / 60)
+        const secs = elapsed % 60
+        document.getElementById("timer-display").textContent =
+          String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0")
+
+        // Current phase
+        let phaseIdx = PHASES.findIndex((p) => mins < p.end)
+        if (phaseIdx === -1) phaseIdx = PHASES.length - 1
+        const phase = PHASES[phaseIdx]
+
+        // Warn if this phase is marked as a transition, OR if we're in the last 60s of any phase
+        const secsUntilEnd = phase.end * 60 - elapsed
+        const warn = phase.warn || secsUntilEnd <= 60
+
+        document.getElementById("timer-display").classList.toggle("warning", warn)
+        document.getElementById("timer-phase").textContent = phase.label
+        document.getElementById("timer-phase").classList.toggle("warning", warn)
+        document.getElementById("timer-bar").style.width = (elapsed / TOTAL_SECS) * 100 + "%"
+        document.getElementById("timer-bar").classList.toggle("warning", warn)
+
+        PHASES.forEach((_, i) => {
+          const el = document.getElementById("phase-" + i)
+          if (!el) return
+          el.classList.remove("active", "done")
+          if (i < phaseIdx) el.classList.add("done")
+          else if (i === phaseIdx) el.classList.add("active")
+        })
+      }
+    </script>
+  </body>
+</html>

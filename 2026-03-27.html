@@ -1,0 +1,1459 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jeu de rôle en autoformation TCC</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #1c1208;
+        --ink-light: #3d2e14;
+        --paper: #f5f0e8;
+        --paper-dark: #ede6d6;
+        --paper-mid: #f0ead8;
+        --rust: #8b3a1a;
+        --rust-light: #a84d2a;
+        --ochre: #b5842a;
+        --sage: #4a6741;
+        --sage-light: #6a8a60;
+        --slate: #3d4f5c;
+        --border: #c8b89a;
+        --border-light: #ddd0bb;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Source Serif 4", Georgia, serif;
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      /* ── PAGE STRUCTURE ── */
+      .page-wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 48px 32px 80px;
+      }
+
+      /* ── MASTHEAD ── */
+      .masthead {
+        text-align: center;
+        border-top: 3px double var(--border);
+        border-bottom: 3px double var(--border);
+        padding: 32px 0 28px;
+        margin-bottom: 48px;
+        position: relative;
+      }
+      .masthead::before {
+        content: "✦";
+        display: block;
+        font-size: 11px;
+        color: var(--border);
+        margin-bottom: 18px;
+        letter-spacing: 6px;
+      }
+      .masthead-kicker {
+        font-family: "Source Serif 4", serif;
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--rust);
+        margin-bottom: 14px;
+      }
+      .masthead h1 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--ink);
+        margin-bottom: 10px;
+      }
+      .masthead-sub {
+        font-family: "Playfair Display", Georgia, serif;
+        font-style: italic;
+        font-size: 1.1rem;
+        color: var(--ink-light);
+        font-weight: 400;
+      }
+      .masthead-meta {
+        margin-top: 18px;
+        font-size: 0.78rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--border);
+      }
+
+      /* ── SECTION HEADERS ── */
+      .section {
+        margin-bottom: 52px;
+      }
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--rust);
+        margin-bottom: 12px;
+      }
+      .section-label::before,
+      .section-label::after {
+        content: "";
+        display: inline-block;
+        width: 28px;
+        height: 1px;
+        background: var(--rust);
+        opacity: 0.5;
+      }
+      .section h2 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 1.55rem;
+        font-weight: 600;
+        color: var(--ink);
+        border-bottom: 1px solid var(--border-light);
+        padding-bottom: 10px;
+        margin-bottom: 22px;
+      }
+      .section h3 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 1.1rem;
+        font-weight: 600;
+        font-style: italic;
+        color: var(--rust);
+        margin: 28px 0 10px;
+      }
+
+      /* ── PROSE ── */
+      p {
+        margin-bottom: 14px;
+      }
+      p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* ── CALLOUT BOX ── */
+      .callout {
+        background: var(--paper-dark);
+        border-left: 3px solid var(--rust);
+        padding: 16px 20px;
+        margin: 20px 0;
+        font-size: 0.92rem;
+        color: var(--ink-light);
+      }
+      .callout strong {
+        color: var(--rust);
+      }
+
+      /* ── TIMER STRUCTURE ── */
+      .chrono {
+        display: grid;
+        gap: 0;
+        border: 1px solid var(--border);
+        margin: 24px 0;
+        overflow: hidden;
+      }
+      .chrono-row {
+        display: grid;
+        grid-template-columns: 90px 1fr;
+        border-bottom: 1px solid var(--border-light);
+      }
+      .chrono-row:last-child {
+        border-bottom: none;
+      }
+      .chrono-time {
+        background: var(--paper-dark);
+        padding: 12px 14px;
+        font-variant-numeric: tabular-nums;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--rust);
+        border-right: 1px solid var(--border-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        line-height: 1.3;
+      }
+      .chrono-desc {
+        padding: 12px 16px;
+        font-size: 0.9rem;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+      }
+      .chrono-desc em {
+        display: block;
+        font-size: 0.78rem;
+        color: var(--ink-light);
+        margin-top: 2px;
+        font-style: normal;
+        opacity: 0.75;
+      }
+      .chrono-head {
+        background: var(--rust);
+        color: white;
+        font-size: 0.78rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-weight: 600;
+        padding: 8px 14px;
+        display: grid;
+        grid-template-columns: 90px 1fr;
+        border-bottom: none;
+      }
+
+      /* ── ROLES GRID ── */
+      .roles-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin: 24px 0;
+      }
+      .role-card {
+        border: 1px solid var(--border);
+        padding: 20px 18px;
+        background: var(--paper-mid);
+        position: relative;
+      }
+      .role-card::before {
+        content: attr(data-icon);
+        display: block;
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+        opacity: 0.65;
+      }
+      .role-card h4 {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--rust);
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-style: normal;
+      }
+      .role-card ul {
+        padding-left: 16px;
+        font-size: 0.86rem;
+        color: var(--ink-light);
+        line-height: 1.6;
+      }
+      .role-card ul li {
+        margin-bottom: 4px;
+      }
+
+      /* ── VIGNETTE CARDS ── */
+      .vignette {
+        border: 1px solid var(--border);
+        margin: 28px 0;
+        overflow: hidden;
+      }
+      .vignette-header {
+        background: var(--paper-dark);
+        border-bottom: 1px solid var(--border);
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .vignette-num {
+        font-family: "Playfair Display", serif;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--rust);
+      }
+      .vignette-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        font-weight: 600;
+        font-style: italic;
+        color: var(--ink);
+        flex: 1;
+      }
+      .vignette-tag {
+        font-size: 0.72rem;
+        background: var(--rust);
+        color: white;
+        padding: 3px 9px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .vignette-body {
+        padding: 20px 22px;
+      }
+      .vignette-body p {
+        font-size: 0.92rem;
+        margin-bottom: 14px;
+      }
+      .vignette-scenario {
+        background: #f9f4ec;
+        border-left: 2px solid var(--ochre);
+        padding: 14px 16px;
+        margin: 16px 0;
+        font-style: italic;
+        font-size: 0.91rem;
+        color: var(--ink-light);
+      }
+      .vignette-scenario strong {
+        font-style: normal;
+        color: var(--ochre);
+        display: block;
+        font-size: 0.75rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+        font-family: "Source Serif 4", serif;
+      }
+      .vignette-tips {
+        margin-top: 16px;
+        padding-top: 14px;
+        border-top: 1px dashed var(--border-light);
+      }
+      /* ── DISCLOSURES (details/summary) ── */
+      details.disclosure {
+        margin: 14px 0;
+      }
+      details.disclosure summary {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+        padding: 9px 13px;
+        border: 1px solid var(--border-light);
+        background: var(--paper-dark);
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: var(--ink-light);
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      details.disclosure summary::-webkit-details-marker {
+        display: none;
+      }
+      details.disclosure summary::marker {
+        display: none;
+      }
+      details.disclosure summary:hover {
+        background: var(--border-light);
+        color: var(--ink);
+      }
+      details.disclosure[open] summary {
+        border-bottom: 1px solid var(--border-light);
+        color: var(--rust);
+      }
+      details.disclosure summary .disc-icon {
+        width: 16px;
+        height: 16px;
+        border: 1px solid currentColor;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 9px;
+        transition: transform 0.2s;
+      }
+      details.disclosure[open] summary .disc-icon {
+        transform: rotate(45deg);
+      }
+      details.disclosure .disc-content {
+        border: 1px solid var(--border-light);
+        border-top: none;
+      }
+      /* scenario inside disclosure */
+      details.disclosure .vignette-scenario {
+        margin: 0;
+        border-left: none;
+        border-left: 2px solid var(--ochre);
+      }
+      /* tips inside disclosure */
+      details.disclosure .vignette-tips {
+        margin: 0;
+        padding: 14px 16px;
+        border-top: none;
+      }
+
+      .vignette-tips-label {
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--sage);
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .vignette-tips ul {
+        padding-left: 16px;
+        font-size: 0.86rem;
+        color: var(--ink-light);
+        line-height: 1.6;
+      }
+      .vignette-tips ul li {
+        margin-bottom: 4px;
+      }
+
+      /* ── REFLECTIVE AXES ── */
+      .axes-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin: 20px 0;
+      }
+      .axe-item {
+        border: 1px solid var(--border-light);
+        padding: 16px 16px;
+        background: var(--paper-mid);
+      }
+      .axe-cat {
+        font-size: 0.7rem;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--slate);
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .axe-question {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 0.97rem;
+        color: var(--ink);
+        line-height: 1.5;
+      }
+
+      /* ── TIRAGE AU SORT ── */
+      .draw-box {
+        text-align: center;
+        padding: 36px 24px;
+        border: 2px dashed var(--border);
+        margin: 28px 0;
+        background: var(--paper-mid);
+      }
+      .draw-box p {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        color: var(--ink-light);
+        margin-bottom: 22px;
+        font-size: 0.95rem;
+      }
+      .role-chips {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+      }
+      .chip {
+        padding: 10px 22px;
+        border: 1px solid var(--border);
+        background: var(--paper);
+        font-family: "Playfair Display", serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--ink);
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          color 0.2s,
+          border-color 0.2s;
+        user-select: none;
+      }
+      .chip:hover {
+        background: var(--rust);
+        color: white;
+        border-color: var(--rust);
+      }
+      .chip.assigned {
+        background: var(--rust);
+        color: white;
+        border-color: var(--rust);
+      }
+      #draw-btn {
+        display: inline-block;
+        padding: 12px 32px;
+        background: var(--rust);
+        color: white;
+        font-family: "Source Serif 4", serif;
+        font-size: 0.88rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      #draw-btn:hover {
+        background: var(--rust-light);
+      }
+      #draw-result {
+        margin-top: 20px;
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        color: var(--ink);
+        min-height: 28px;
+        line-height: 1.6;
+      }
+      #draw-result span {
+        color: var(--rust);
+        font-weight: 600;
+      }
+
+      /* ── TABLE DES MATIÈRES ── */
+      .toc {
+        border: 1px solid var(--border);
+        padding: 24px 28px;
+        margin-bottom: 48px;
+        background: var(--paper-mid);
+      }
+      .toc-title {
+        font-family: "Playfair Display", serif;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--rust);
+        margin-bottom: 16px;
+      }
+      .toc ol {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        counter-reset: toc-counter;
+      }
+      .toc ol li {
+        counter-increment: toc-counter;
+        display: grid;
+        grid-template-columns: 22px 1fr auto;
+        align-items: baseline;
+        gap: 0 8px;
+        padding: 5px 0;
+        border-bottom: 1px dotted var(--border-light);
+      }
+      .toc ol li:last-child {
+        border-bottom: none;
+      }
+      .toc ol li::before {
+        content: counter(toc-counter, upper-roman);
+        font-family: "Playfair Display", serif;
+        font-size: 0.72rem;
+        color: var(--border);
+        font-weight: 600;
+        letter-spacing: 1px;
+      }
+      .toc ol li a {
+        font-family: "Source Serif 4", serif;
+        font-size: 0.9rem;
+        color: var(--ink);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .toc ol li a:hover {
+        color: var(--rust);
+      }
+      .toc ol li .toc-tag {
+        font-size: 0.7rem;
+        color: var(--border);
+        white-space: nowrap;
+        font-style: italic;
+      }
+
+      /* ── FEEDBACK GRID ── */
+      .feedback-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 0.87rem;
+      }
+      .feedback-table th {
+        background: var(--paper-dark);
+        border: 1px solid var(--border);
+        padding: 10px 12px;
+        font-family: "Playfair Display", serif;
+        font-weight: 600;
+        font-style: italic;
+        color: var(--ink);
+        text-align: left;
+      }
+      .feedback-table td {
+        border: 1px solid var(--border-light);
+        padding: 9px 12px;
+        vertical-align: top;
+        color: var(--ink-light);
+        line-height: 1.55;
+      }
+      .feedback-table tr:nth-child(even) td {
+        background: var(--paper-mid);
+      }
+
+      /* ── ORNAMENTAL DIVIDER ── */
+      .divider {
+        text-align: center;
+        color: var(--border);
+        font-size: 11px;
+        letter-spacing: 8px;
+        margin: 40px 0;
+      }
+
+      /* ── POINTS D'ATTENTION ── */
+      .attention-list {
+        list-style: none;
+        padding: 0;
+        margin: 18px 0;
+      }
+      .attention-list li {
+        padding: 10px 12px 10px 36px;
+        position: relative;
+        font-size: 0.91rem;
+        border-bottom: 1px dotted var(--border-light);
+        color: var(--ink-light);
+      }
+      .attention-list li:last-child {
+        border-bottom: none;
+      }
+      .attention-list li::before {
+        content: attr(data-symbol);
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        font-size: 0.85rem;
+        color: var(--rust);
+      }
+
+      @media (max-width: 640px) {
+        .roles-grid {
+          grid-template-columns: 1fr;
+        }
+        .axes-grid {
+          grid-template-columns: 1fr;
+        }
+        .page-wrap {
+          padding: 28px 18px 60px;
+        }
+        .masthead h1 {
+          font-size: 1.8rem;
+        }
+      }
+
+      @media print {
+        body {
+          background: white;
+        }
+        .draw-box button {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrap">
+      <!-- MASTHEAD -->
+      <header class="masthead">
+        <div class="masthead-kicker">Autoformation TCC — Groupe de pairs</div>
+        <h1>Séance de jeu de rôle</h1>
+        <div class="masthead-sub">Guide méthodologique et matériel clinique</div>
+        <div class="masthead-meta">
+          Durée totale : 60 minutes &nbsp;·&nbsp; 3 participants &nbsp;·&nbsp; Rôles tirés au sort
+        </div>
+      </header>
+
+      <!-- TABLE DES MATIÈRES -->
+      <nav class="toc">
+        <div class="toc-title">Sommaire</div>
+        <ol>
+          <li>
+            <a href="#sec-fondements">Fondements et recommandations de la littérature</a
+            ><span class="toc-tag">Mécanismes pédagogiques</span>
+          </li>
+          <li><a href="#sec-chrono">Structure temporelle de la séance</a><span class="toc-tag">60 minutes</span></li>
+          <li>
+            <a href="#sec-roles">Description des rôles</a
+            ><span class="toc-tag">Thérapeute · Patient · Observateur</span>
+          </li>
+          <li><a href="#sec-tirage">Tirage au sort des rôles</a><span class="toc-tag">Outil interactif</span></li>
+          <li><a href="#sec-vignettes">Vignettes cliniques</a><span class="toc-tag">3 scénarios</span></li>
+          <li><a href="#sec-grille">Grille d'observation</a><span class="toc-tag">Pour l'observateur</span></li>
+          <li><a href="#sec-debrief">Axes pour le partage réflexif</a><span class="toc-tag">Débriefing</span></li>
+          <li><a href="#sec-refs">Références</a><span class="toc-tag">Bibliographie</span></li>
+        </ol>
+      </nav>
+      <section class="section" id="sec-fondements">
+        <div class="section-label">I</div>
+        <h2>Fondements et recommandations de la littérature</h2>
+
+        <p>
+          Le jeu de rôle est reconnu dans la littérature sur la formation en TCC comme l'une des modalités
+          d'apprentissage actif les plus efficaces pour développer des compétences procédurales — c'est-à-dire la
+          capacité à mettre en œuvre des techniques en situation réelle (Bennett-Levy et al., 2009 ; Rønning &amp;
+          Bjørkly, 2019). Par opposition aux approches passives (lecture, conférence), la répétition comportementale en
+          jeu de rôle permet l'intégration de savoirs déclaratifs et procéduraux.
+        </p>
+
+        <p>
+          En contexte d'autoformation entre pairs, plusieurs conditions améliorent la qualité pédagogique de l'exercice.
+          Les éléments qui suivent sont tirés des recommandations empiriques disponibles.
+        </p>
+
+        <h3>Mécanismes pédagogiques clés</h3>
+        <p>
+          L'efficacité du jeu de rôle repose sur plusieurs mécanismes convergents : la simulation d'un contexte réel
+          réduit le coût émotionnel de l'erreur, ce qui favorise l'expérimentation ; incarner le rôle du patient
+          développe une empathie expérientielle qui transforme la compréhension théorique du vécu clinique ; enfin, la
+          position d'observateur constitue en elle-même un exercice cognitif distinct, mobilisant la réflexivité et la
+          capacité d'observation clinique structurée.
+        </p>
+
+        <div class="callout">
+          <strong>Point d'ancrage théorique :</strong> Bennett-Levy et al. (2009) distinguent l'apprentissage déclaratif
+          (savoir que) de l'apprentissage procédural (savoir comment faire). Le jeu de rôle est la méthode la mieux
+          adaptée au développement du second registre — celui qui détermine la qualité réelle de la pratique clinique.
+        </div>
+
+        <h3>Points d'attention spécifiques à l'autoformation</h3>
+        <ul class="attention-list">
+          <li data-symbol="◈">
+            Absence de superviseur : les retours reposent entièrement sur les pairs. Il est recommandé de s'appuyer sur
+            des axes d'observation prédéfinis pour structurer le débriefing et éviter les feedbacks trop généraux ou
+            trop personnels.
+          </li>
+          <li data-symbol="◈">
+            Le rôle du patient peut être émotionnellement engageant. Chaque participant doit se sentir libre
+            d'interrompre ou d'ajuster l'intensité du scénario. Un signal convenu («&nbsp;pause&nbsp;») peut être utile.
+          </li>
+          <li data-symbol="◈">
+            Les vignettes choisies doivent rester émotionnellement gérables — éviter les thématiques traumatiques ou
+            trop proches de situations personnelles connues du groupe.
+          </li>
+          <li data-symbol="◈">
+            La rotation systématique des rôles à chaque séance est recommandée pour que chacun intègre les trois
+            perspectives (Crowe, 2014 ; Rønning &amp; Bjørkly, 2019).
+          </li>
+          <li data-symbol="◈">
+            La brièveté des séquences (15–20 min par jeu de rôle) est préférable, surtout en début de pratique — elle
+            limite la fatigue et maintient la qualité de l'engagement.
+          </li>
+        </ul>
+
+        <h3>Rôle de l'observateur</h3>
+        <p>
+          L'observateur n'est pas spectateur passif : son rôle est documenté comme pédagogiquement aussi riche que celui
+          du thérapeute (Rønning &amp; Bjørkly, 2019). Il bénéficie d'une position méta qui développe la capacité de
+          supervision de soi. Pour être utile, l'observation doit être orientée par des tâches spécifiques définies
+          avant le début du jeu de rôle (voir grille ci-dessous).
+        </p>
+      </section>
+
+      <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+      <!-- SECTION 2 : STRUCTURE TEMPORELLE -->
+      <section class="section" id="sec-chrono">
+        <div class="section-label">II</div>
+        <h2>Structure temporelle de la séance</h2>
+
+        <p>
+          La répartition suivante est conçue pour une séance de 60 minutes avec un seul jeu de rôle suivi d'un
+          débriefing approfondi. Elle peut être adaptée pour deux jeux de rôle courts si le groupe est rodé.
+        </p>
+
+        <div class="chrono">
+          <div class="chrono-head"><span>Durée</span><span>Phase</span></div>
+          <div class="chrono-row">
+            <div class="chrono-time">0–5 min</div>
+            <div class="chrono-desc">
+              <div>
+                <strong>Mise en place</strong
+                ><em>Tirage au sort des rôles · Sélection de la vignette · Lecture du scénario par tous</em>
+              </div>
+            </div>
+          </div>
+          <div class="chrono-row">
+            <div class="chrono-time">5–10 min</div>
+            <div class="chrono-desc">
+              <div>
+                <strong>Briefing des rôles</strong
+                ><em
+                  >Le thérapeute formule son intention pour la séance · L'observateur choisit ses axes d'attention · Le
+                  patient s'imprègne du personnage</em
+                >
+              </div>
+            </div>
+          </div>
+          <div class="chrono-row">
+            <div class="chrono-time">10–30 min</div>
+            <div class="chrono-desc">
+              <div>
+                <strong>Jeu de rôle</strong
+                ><em>Simulation de 20 minutes — le thérapeute mène · le patient répond · l'observateur note</em>
+              </div>
+            </div>
+          </div>
+          <div class="chrono-row">
+            <div class="chrono-time">30–35 min</div>
+            <div class="chrono-desc">
+              <div>
+                <strong>Sortie de rôle</strong
+                ><em
+                  >Signal collectif de fin · Chacun nomme brièvement son état émotionnel · décompression avant
+                  débriefing</em
+                >
+              </div>
+            </div>
+          </div>
+          <div class="chrono-row">
+            <div class="chrono-time">35–55 min</div>
+            <div class="chrono-desc">
+              <div>
+                <strong>Débriefing réflexif</strong
+                ><em
+                  >Parole d'abord au thérapeute · puis au patient · puis à l'observateur · discussion collective guidée
+                  par les axes</em
+                >
+              </div>
+            </div>
+          </div>
+          <div class="chrono-row">
+            <div class="chrono-time">55–60 min</div>
+            <div class="chrono-desc">
+              <div>
+                <strong>Clôture et méta-réflexion</strong
+                ><em>Un mot par personne sur ce qu'elle retient · éventuel point pour la prochaine séance</em>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>Ordre du débriefing :</strong> La littérature recommande de donner la parole en premier au thérapeute
+          — pour éviter que le retour de l'observateur ne colonise sa propre réflexivité. L'auto-évaluation précède le
+          feedback externe.
+        </div>
+      </section>
+
+      <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+      <!-- SECTION 3 : RÔLES -->
+      <section class="section" id="sec-roles">
+        <div class="section-label">III</div>
+        <h2>Description des rôles</h2>
+
+        <div class="roles-grid">
+          <div class="role-card" data-icon="◎">
+            <h4>Psychothérapeute</h4>
+            <ul>
+              <li>Mène la séance avec un objectif formulé</li>
+              <li>Applique les techniques TCC de façon adaptée</li>
+              <li>Gère le cadre, le temps, la relation</li>
+              <li>Note mentalement ses hésitations</li>
+              <li>Peut interrompre pour «&nbsp;geler&nbsp;» la scène</li>
+            </ul>
+          </div>
+          <div class="role-card" data-icon="◑">
+            <h4>Patient</h4>
+            <ul>
+              <li>Incarne la vignette sans excès dramatique</li>
+              <li>Réagit de façon authentique à la relation</li>
+              <li>N'aide pas le thérapeute — reste dans le rôle</li>
+              <li>Peut nuancer l'intensité si besoin</li>
+              <li>Se déroule après sur son vécu du rôle</li>
+            </ul>
+          </div>
+          <div class="role-card" data-icon="◻">
+            <h4>Observateur</h4>
+            <ul>
+              <li>Choisit 2–3 axes d'observation avant le début</li>
+              <li>Prend des notes factuelles et comportementales</li>
+              <li>Évite les jugements de valeur</li>
+              <li>Structure le feedback : d'abord ce qui fonctionne</li>
+              <li>Anime la discussion collective si besoin</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+      <!-- SECTION 4 : TIRAGE AU SORT -->
+      <section class="section" id="sec-tirage">
+        <div class="section-label">IV</div>
+        <h2>Tirage au sort des rôles</h2>
+
+        <div class="draw-box">
+          <p>
+            Chaque participant tire un billet. L'outil ci-dessous simule le tirage — ou utilisez trois billets pliés.
+          </p>
+          <div class="role-chips">
+            <div class="chip" id="chip-a">Participant A</div>
+            <div class="chip" id="chip-b">Participant B</div>
+            <div class="chip" id="chip-c">Participant C</div>
+          </div>
+          <button id="draw-btn" onclick="drawRoles()">Tirer les rôles au sort</button>
+          <div id="draw-result"></div>
+        </div>
+      </section>
+
+      <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+      <!-- SECTION 5 : VIGNETTES -->
+      <section class="section" id="sec-vignettes">
+        <div class="section-label">V</div>
+        <h2>Vignettes cliniques</h2>
+
+        <p>
+          Trois vignettes sont proposées. Les vignettes I et II sont des <strong>premières rencontres</strong> — chaque
+          rôle dispose d'informations différentes, accessibles séparément. La vignette III simule une séance avancée.
+          Choisissez-en une avant la séance ou tirez-la au sort.
+        </p>
+
+        <div class="callout">
+          <strong>Protocole de lecture pour les vignettes I et II :</strong> une fois la vignette choisie et les rôles
+          tirés au sort, chaque participant ouvre <em>uniquement</em> l'accordéon correspondant à son rôle. Personne ne
+          lit la section des autres avant le début du jeu de rôle. L'observateur ne lit aucune section cachée.
+        </div>
+
+        <!-- VIGNETTE 1 -->
+        <div class="vignette">
+          <div class="vignette-header">
+            <span class="vignette-num">Vignette I</span>
+            <span class="vignette-title">«&nbsp;Mon médecin m'a dit d'appeler&nbsp;»</span>
+            <span class="vignette-tag">1re rencontre — Dépression</span>
+          </div>
+          <div class="vignette-body">
+            <p>
+              <em>Contexte général (visible de tous) :</em> Première consultation. Le thérapeute reçoit un patient
+              adressé par son médecin généraliste. La séance dure 50 minutes. L'objectif attendu d'une première
+              rencontre en TCC est d'établir un contact de qualité, de recueillir les informations permettant une
+              première conceptualisation fonctionnelle, et d'amorcer une alliance de travail — sans poser de diagnostic
+              définitif ni proposer de techniques prématurément.
+            </p>
+
+            <details class="disclosure">
+              <summary><span class="disc-icon">+</span>Rôle du thérapeute — conditions de prise de rendez-vous</summary>
+              <div class="disc-content">
+                <div class="vignette-scenario">
+                  <strong>Ce que le thérapeute sait avant la séance</strong>
+                  Le médecin généraliste a transmis un mot bref :
+                  <em
+                    >«&nbsp;Patient de 38 ans, ingénieur, vient me voir depuis trois mois pour fatigue chronique et
+                    troubles du sommeil. Bilan somatique négatif. A perdu 4 kg. Évoque des difficultés professionnelles
+                    et un sentiment de "ne plus y arriver". Méfiant vis-à-vis de la psychiatrie, a accepté de consulter
+                    un psychologue après insistance. Pas d'antécédents psychiatriques connus. Pas d'idées suicidaires
+                    exprimées.&nbsp;»</em
+                  ><br /><br />
+                  Le thérapeute ne sait rien d'autre. Il n'a pas de questionnaire rempli au préalable. La séance
+                  commence dans un bureau sobre ; le patient est ponctuel.
+                </div>
+              </div>
+            </details>
+
+            <details class="disclosure">
+              <summary><span class="disc-icon">+</span>Rôle du patient — situation complète à lire seul</summary>
+              <div class="disc-content">
+                <div class="vignette-scenario">
+                  <strong>Qui tu es et ce que tu vis</strong>
+                  Tu t'appelles Marc, 38 ans, ingénieur dans une entreprise de construction. Tu es père de deux enfants
+                  (7 et 10 ans). Depuis huit mois environ, tu te sens «&nbsp;vide&nbsp;» — une fatigue que le sommeil ne
+                  répare pas, une incapacité à éprouver du plaisir dans des activités qui t'importaient (sport,
+                  bricolage, sorties en famille). Tu continues à fonctionner au travail — tu n'as posé aucun arrêt —
+                  mais tu t'y épuises plus vite, tu fais des erreurs inhabituelles, et tu évites de plus en plus les
+                  réunions en préférant travailler seul.<br /><br />
+                  Tu te lèves chaque matin avec la conviction que la journée sera «&nbsp;trop lourde&nbsp;». Le soir, tu
+                  t'endors rapidement mais te réveilles entre 3h et 4h, avec des pensées circulaires — essentiellement
+                  autour du travail et de ta valeur en tant que père. Tu manges peu. Tu n'as pas de pensées suicidaires,
+                  mais parfois l'idée que «&nbsp;ce serait plus simple de ne pas être là&nbsp;» traverse ton esprit sans
+                  que tu te l'accordes vraiment.<br /><br />
+                  Tu n'as jamais consulté un psy. Tu ne sais pas exactement pourquoi tu es là — tu as cédé pour
+                  «&nbsp;faire plaisir&nbsp;» à ton médecin. Tu n'es pas hostile, mais tu es prudent : tu observes si
+                  l'interlocuteur mérite ta confiance avant de t'ouvrir. Tu parles peu spontanément, tu attends les
+                  questions. Si le thérapeute valide ce que tu ressens sans minimiser, tu peux progressivement t'ouvrir
+                  davantage.
+                </div>
+                <div class="vignette-scenario">
+                  <strong>Pensées et croyances centrales à incarner</strong>
+                  Pensée automatique fréquente :
+                  <em>«&nbsp;Je devrais être capable de gérer ça seul.&nbsp;»</em> Croyance sous-jacente :
+                  <em>«&nbsp;Avoir besoin d'aide, c'est une faiblesse.&nbsp;»</em> Tu es sincère quand tu réponds, mais
+                  tu ne livres pas tout d'emblée — il faut que le thérapeute pose les bonnes questions, au bon rythme.
+                  Si le thérapeute va trop vite ou propose une explication avant de t'avoir entendu, tu te refermes
+                  légèrement.
+                </div>
+              </div>
+            </details>
+
+            <details class="disclosure">
+              <summary><span class="disc-icon">+</span>Pistes techniques — à consulter après le jeu de rôle</summary>
+              <div class="disc-content">
+                <div class="vignette-tips">
+                  <div class="vignette-tips-label">Objectifs d'une première séance en TCC et points d'attention</div>
+                  <ul>
+                    <li>
+                      Établir le contact : valider l'expérience subjective avant toute conceptualisation (empathie comme
+                      condition préalable à l'alliance — Beck, 1979)
+                    </li>
+                    <li>Recueil de l'histoire du problème : début, évolution, facteurs déclenchants, maintien</li>
+                    <li>
+                      Exploration des sphères cognitives, comportementales et physiologiques — amorce du modèle
+                      tridimensionnel
+                    </li>
+                    <li>
+                      Identifier les évitements comportementaux comme facteur de maintien de l'humeur dépressive
+                      (Lewinsohn, 1974 ; activation comportementale)
+                    </li>
+                    <li>Évaluation sommaire du risque suicidaire — nécessaire même si non exprimé spontanément</li>
+                    <li>
+                      Amorcer la psychoéducation au modèle TCC sans le plaquer : préférer des questions qui font émerger
+                      les liens cognition–émotion–comportement
+                    </li>
+                    <li>
+                      Ne pas conclure trop vite : la méfiance du patient envers l'aide est elle-même une donnée clinique
+                      centrale
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- VIGNETTE 2 -->
+        <div class="vignette">
+          <div class="vignette-header">
+            <span class="vignette-num">Vignette II</span>
+            <span class="vignette-title">«&nbsp;Je viens surtout parce que ça devient ingérable&nbsp;»</span>
+            <span class="vignette-tag">1re rencontre — Anxiété sociale</span>
+          </div>
+          <div class="vignette-body">
+            <p>
+              <em>Contexte général (visible de tous) :</em> Première consultation, prise de rendez-vous spontanée (sans
+              adressage médical). La patiente est venue d'elle-même. Le thérapeute n'a aucune information préalable
+              hormis ce qu'elle a dit lors de l'appel téléphonique. L'objectif de la séance est d'établir une alliance,
+              de réaliser un premier bilan fonctionnel et d'amorcer une compréhension partagée du problème — sans aller
+              jusqu'à la prescription de techniques.
+            </p>
+
+            <details class="disclosure">
+              <summary><span class="disc-icon">+</span>Rôle du thérapeute — conditions de prise de rendez-vous</summary>
+              <div class="disc-content">
+                <div class="vignette-scenario">
+                  <strong>Ce que le thérapeute sait avant la séance</strong>
+                  Lors de l'appel téléphonique, la patiente a dit :
+                  <em
+                    >«&nbsp;J'ai des problèmes d'anxiété en public, ça dure depuis longtemps mais là ça empire. Je
+                    travaille dans la recherche et ça commence à poser des problèmes pour ma carrière.&nbsp;»</em
+                  >
+                  Elle a posé deux questions avant de prendre rendez-vous : «&nbsp;Est-ce que vous travaillez avec des
+                  chercheurs ?&nbsp;» et «&nbsp;Est-ce que la TCC, ça marche vraiment pour ce genre de problème
+                  ?&nbsp;». Sa voix était posée, précise. Elle a demandé un créneau en fin de journée pour ne pas avoir
+                  à s'absenter du laboratoire.
+                </div>
+              </div>
+            </details>
+
+            <details class="disclosure">
+              <summary><span class="disc-icon">+</span>Rôle du patient — situation complète à lire seul</summary>
+              <div class="disc-content">
+                <div class="vignette-scenario">
+                  <strong>Qui tu es et ce que tu vis</strong>
+                  Tu t'appelles Sophie, 29 ans, doctorante en quatrième année de thèse en biologie moléculaire. Tu es
+                  brillante, reconnue dans ton laboratoire, mais depuis plusieurs mois l'anxiété lors des situations
+                  académiques collectives a atteint un niveau qui t'épuise. Les séminaires, les réunions d'équipe, les
+                  repas de labo, les congrès — toutes ces situations déclenchent une anticipation anxieuse qui peut
+                  commencer plusieurs jours à l'avance.<br /><br />
+                  En situation, tu ressens une accélération cardiaque marquée, des rougissements que tu perçois comme
+                  très visibles, une sensation de «&nbsp;blanc&nbsp;» dans les idées. Tu as développé des stratégies
+                  d'évitement élaborées : tu prépares tes interventions par écrit à l'avance, tu te places toujours au
+                  fond de la salle, tu arrives en retard aux réunions pour ne pas avoir à attendre en présence des
+                  autres, tu déclines les repas collectifs sous prétexte de travail. Ces stratégies te coûtent beaucoup
+                  d'énergie et ne font que repousser les situations.<br /><br />
+                  Le déclencheur de cette consultation : dans six semaines, tu as une soutenance de mi-thèse devant un
+                  jury de cinq personnes. Tu sais que si tu n'agis pas maintenant, tu vas soit annuler (ce qui est
+                  impensable professionnellement), soit vivre un moment de dissociation visible. C'est la première fois
+                  que tu consultes un psychologue — tu as longtemps pensé que tu «&nbsp;devais gérer ça seule&nbsp;».
+                </div>
+                <div class="vignette-scenario">
+                  <strong>Comment tu te comportes dans la séance</strong>
+                  Tu es articulée, précise, tu utilises un vocabulaire riche. Tu poses des questions sur la méthode
+                  avant même que le thérapeute ait commencé. Tu peux avoir tendance à intellectualiser — décrire ton
+                  anxiété comme un objet d'étude plutôt qu'à la ressentir dans l'échange. Si le thérapeute te pose une
+                  question trop vague, tu demandes qu'il précise. Si tu perçois de la compétence, tu t'engages
+                  rapidement. Pensée automatique centrale :
+                  <em>«&nbsp;S'ils voient que j'ai peur, ils sauront que je ne suis pas à ma place.&nbsp;»</em>
+                </div>
+              </div>
+            </details>
+
+            <details class="disclosure">
+              <summary><span class="disc-icon">+</span>Pistes techniques — à consulter après le jeu de rôle</summary>
+              <div class="disc-content">
+                <div class="vignette-tips">
+                  <div class="vignette-tips-label">Objectifs d'une première séance et points d'attention</div>
+                  <ul>
+                    <li>
+                      Recueillir la topographie complète du problème : situations déclenchantes, réponses cognitives,
+                      émotionnelles, physiologiques et comportementales (modèle SECCA ou équivalent)
+                    </li>
+                    <li>
+                      Identifier les comportements d'évitement et de sécurité comme facteurs de maintien de l'anxiété
+                      sociale (Clark &amp; Wells, 1995 ; Rapee &amp; Heimberg, 1997)
+                    </li>
+                    <li>Repérer le biais d'auto-focalisation attentionnelle — central dans l'anxiété sociale</li>
+                    <li>
+                      Valider l'intelligence de la patiente sans en faire un obstacle : son intellectualisation est une
+                      stratégie d'adaptation, pas une résistance
+                    </li>
+                    <li>
+                      Amorcer la psychoéducation sur le paradoxe des évitements : comment les stratégies de sécurité
+                      entretiennent la peur
+                    </li>
+                    <li>
+                      Ne pas proposer d'exposition dès la première séance — construire d'abord la conceptualisation
+                      partagée et le sentiment d'être comprise
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- VIGNETTE 3 -->
+        <div class="vignette">
+          <div class="vignette-header">
+            <span class="vignette-num">Vignette III</span>
+            <span class="vignette-title">«&nbsp;Je me sens coupable de ne pas aller mieux&nbsp;»</span>
+            <span class="vignette-tag">Séance avancée — Perfectionnisme</span>
+          </div>
+          <div class="vignette-body">
+            <p>
+              <em>Contexte général (visible de tous) :</em> Huitième séance avec un patient suivi pour burn-out, chez
+              qui un perfectionnisme rigide et des schémas d'exigence envers soi-même dominent le tableau clinique. La
+              relation thérapeutique est établie mais mise à l'épreuve aujourd'hui. Le patient ouvre la séance par :
+              <em
+                >«&nbsp;Je suis supposé aller mieux maintenant, non ? Je fais tout ce que vous me demandez. Pourquoi
+                est-ce que je n'avance pas plus vite ?&nbsp;»</em
+              >
+            </p>
+
+            <details class="disclosure">
+              <summary><span class="disc-icon">+</span>Rôle du thérapeute — contexte clinique préalable</summary>
+              <div class="disc-content">
+                <div class="vignette-scenario">
+                  <strong>Ce que le thérapeute sait de la situation</strong>
+                  Antoine, 45 ans, cadre commercial dans une multinationale. Adressé par son médecin du travail après un
+                  arrêt de six semaines pour burn-out. Les huit séances précédentes ont permis d'identifier un schéma
+                  central d'exigence et de contrôle : Antoine se fixe des standards élevés dans toutes les sphères de sa
+                  vie (professionnel, parental, physique) et interprète tout écart comme une défaillance personnelle. Il
+                  a réalisé ses carnets de pensées avec une précision remarquable — toujours complets, toujours rendus à
+                  l'heure. Il applique les techniques comme des tâches à réussir.<br /><br />
+                  La semaine passée, il a tenté une activation comportementale (reprendre la course à pied, activité
+                  qu'il aimait avant le burn-out) et a abandonné après 800 mètres, «&nbsp;incapable d'aller jusqu'au
+                  bout&nbsp;». Il l'interprète comme un nouvel échec. Sa femme lui a dit qu'il avait l'air «&nbsp;moins
+                  tendu&nbsp;» — information qu'il a balayée.
+                </div>
+              </div>
+            </details>
+
+            <details class="disclosure">
+              <summary><span class="disc-icon">+</span>Rôle du patient — situation complète à lire seul</summary>
+              <div class="disc-content">
+                <div class="vignette-scenario">
+                  <strong>Qui tu es dans cette séance</strong>
+                  Tu es Antoine. Tu arrives avec tes fiches de suivi parfaitement remplies, classées par date. Tu es
+                  ponctuel, tu salues poliment. Mais sous cette surface organisée, il y a une tension : tu te demandes
+                  si tu «&nbsp;travailles bien&nbsp;» la thérapie. Tu as l'impression que les autres patients
+                  progressent plus vite que toi — même si tu n'en sais rien. Tu t'es dit que si dans dix séances tu
+                  n'allais pas «&nbsp;nettement mieux&nbsp;», c'est que tu n'y mettais pas assez du tien.<br /><br />
+                  Quand le thérapeute valide quelque chose que tu ressens, tu te détends une fraction de seconde — puis
+                  tu te réimposes immédiatement une exigence. Tu n'es pas en colère contre lui, mais tu attends quelque
+                  chose qu'il ne donne pas encore : la certitude que tu «&nbsp;guéris correctement&nbsp;». Si le
+                  thérapeute t'invite à explorer ce que signifie «&nbsp;aller mieux&nbsp;», tu peux t'y engager — c'est
+                  une question que tu n'as jamais posée vraiment.
+                </div>
+                <div class="vignette-scenario">
+                  <strong>Pensées et croyances à incarner</strong>
+                  Pensée automatique :
+                  <em>«&nbsp;Si je ne guéris pas assez vite, c'est que je ne fais pas assez d'efforts.&nbsp;»</em> Règle
+                  dysfonctionnelle sous-jacente :
+                  <em>«&nbsp;Ma valeur dépend de mes résultats — y compris en thérapie.&nbsp;»</em> Cette règle est
+                  présente dans la séance elle-même : la thérapie est devenue un nouveau domaine où tu peux réussir ou
+                  échouer.
+                </div>
+              </div>
+            </details>
+
+            <details class="disclosure">
+              <summary><span class="disc-icon">+</span>Pistes techniques — à consulter après le jeu de rôle</summary>
+              <div class="disc-content">
+                <div class="vignette-tips">
+                  <div class="vignette-tips-label">Points d'attention et pistes cliniques</div>
+                  <ul>
+                    <li>
+                      Le schéma perfectionniste se joue <em>dans la relation thérapeutique ici et maintenant</em> —
+                      c'est un matériau clinique direct, pas seulement un récit sur la vie extérieure
+                    </li>
+                    <li>
+                      Psychoéducation sur le rythme du changement : différencier les signes de progrès visibles des
+                      changements structurels plus lents (Young, 1990)
+                    </li>
+                    <li>
+                      Identifier et nommer la règle dysfonctionnelle sous-jacente : «&nbsp;Ma valeur = mes
+                      résultats&nbsp;» — en la faisant émerger par questionnement socratique plutôt qu'en la proposant
+                    </li>
+                    <li>
+                      Explorer le paradoxe : appliquer les techniques «&nbsp;parfaitement&nbsp;» reproduit la même
+                      dynamique problématique que celle qu'on cherche à modifier
+                    </li>
+                    <li>
+                      Utiliser l'information négligée (le regard de sa femme, les 800 mètres courus) comme données
+                      contradictoires à la pensée automatique
+                    </li>
+                    <li>
+                      Différencier effort et changement — déconstruire l'illusion de contrôle sur le rythme de la
+                      guérison
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+      <!-- SECTION 6 : GRILLE OBSERVATEUR -->
+      <section class="section" id="sec-grille">
+        <div class="section-label">VI</div>
+        <h2>Grille d'observation pour l'observateur</h2>
+
+        <p>
+          L'observateur sélectionne avant le début 2 à 3 dimensions à observer. Il note des faits comportementaux — ce
+          qui a été dit ou fait — et non des jugements. Le feedback commence par les points forts.
+        </p>
+
+        <table class="feedback-table">
+          <thead>
+            <tr>
+              <th>Dimension</th>
+              <th>Ce que j'observe (faits)</th>
+              <th>Questions à poser</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Alliance / relation</strong></td>
+              <td>Ton, posture, validation, synchronisation verbale</td>
+              <td>Le patient se sentait-il compris ? À quel moment ?</td>
+            </tr>
+            <tr>
+              <td><strong>Structure de séance</strong></td>
+              <td>Agenda, bilan de séance, lien avec la séance précédente</td>
+              <td>La séance avait-elle une direction claire ?</td>
+            </tr>
+            <tr>
+              <td><strong>Questionnement socratique</strong></td>
+              <td>Questions ouvertes, guidage sans imposition, rythme</td>
+              <td>Le thérapeute a-t-il laissé de l'espace ?</td>
+            </tr>
+            <tr>
+              <td><strong>Conceptualisation</strong></td>
+              <td>Lien cognition–émotion–comportement explicité ou implicite</td>
+              <td>Le modèle TCC était-il visible dans le travail ?</td>
+            </tr>
+            <tr>
+              <td><strong>Flexibilité technique</strong></td>
+              <td>Ajustements face aux résistances, moments d'hésitation</td>
+              <td>Qu'aurait-on pu essayer d'autre ?</td>
+            </tr>
+            <tr>
+              <td><strong>Gestion émotionnelle</strong></td>
+              <td>Régulation du thérapeute, tempo, silences</td>
+              <td>Y a-t-il eu des moments de tension ? Comment gérés ?</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+      <!-- SECTION 7 : DÉBRIEFING RÉFLEXIF -->
+      <section class="section" id="sec-debrief">
+        <div class="section-label">VII</div>
+        <h2>Axes pour le partage réflexif</h2>
+
+        <p>
+          Le débriefing est le cœur pédagogique de la séance. Il suit l'ordre : thérapeute → patient → observateur →
+          discussion collective. Les questions suivantes servent de fil directeur — elles ne doivent pas toutes être
+          traitées.
+        </p>
+
+        <h3>Voix du thérapeute</h3>
+        <div class="axes-grid">
+          <div class="axe-item">
+            <div class="axe-cat">Intention</div>
+            <div class="axe-question">Quel était mon objectif au début de la séance ? L'ai-je maintenu ?</div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Moment clé</div>
+            <div class="axe-question">Y a-t-il eu un moment où j'ai hésité ou changé de cap ? Pourquoi ?</div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Résonance</div>
+            <div class="axe-question">Qu'est-ce que ce patient a provoqué en moi — pensées, émotions, impulsions ?</div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Conceptualisation</div>
+            <div class="axe-question">
+              Comment ai-je compris ce qui se passait pour ce patient ? Cela a-t-il guidé mes choix ?
+            </div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Ce que je ferais autrement</div>
+            <div class="axe-question">Si je recommençais cette séance, qu'est-ce que je changerais ?</div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Point fort</div>
+            <div class="axe-question">Qu'est-ce que j'ai bien fait ? (répondre sans minimiser)</div>
+          </div>
+        </div>
+
+        <h3>Voix du patient</h3>
+        <div class="axes-grid">
+          <div class="axe-item">
+            <div class="axe-cat">Expérience du rôle</div>
+            <div class="axe-question">Comment ai-je vécu d'incarner ce patient ? Qu'est-ce qui m'a surpris ?</div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Moments de connexion</div>
+            <div class="axe-question">À quel(s) moment(s) ai-je eu l'impression d'être vraiment entendu ?</div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Ce qui m'a manqué</div>
+            <div class="axe-question">
+              Y a-t-il eu quelque chose que j'attendais du thérapeute et qui n'est pas venu ?
+            </div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Compréhension du patient</div>
+            <div class="axe-question">Qu'ai-je appris sur la logique interne de ce profil clinique ?</div>
+          </div>
+        </div>
+
+        <h3>Voix de l'observateur</h3>
+        <div class="axes-grid">
+          <div class="axe-item">
+            <div class="axe-cat">Faits observés</div>
+            <div class="axe-question">
+              Quels moments ou gestes spécifiques ai-je notés — ce que j'ai vu et entendu ?
+            </div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Points forts d'abord</div>
+            <div class="axe-question">Qu'est-ce qui a fonctionné dans la conduite de séance ?</div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Pistes d'enrichissement</div>
+            <div class="axe-question">Quelles alternatives techniques auraient pu être explorées ? (sans jugement)</div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Ce que j'apprends</div>
+            <div class="axe-question">Qu'est-ce que cette observation me dit sur ma propre pratique ?</div>
+          </div>
+        </div>
+
+        <h3>Discussion collective</h3>
+        <div class="axes-grid">
+          <div class="axe-item">
+            <div class="axe-cat">Convergences</div>
+            <div class="axe-question">Qu'est-ce que les trois perspectives ont en commun ?</div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Divergences</div>
+            <div class="axe-question">Où nos lectures de la séance ont-elles différé ? Qu'est-ce que ça dit ?</div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Généralisation</div>
+            <div class="axe-question">
+              Qu'est-ce que ce jeu de rôle éclaire dans notre pratique quotidienne réelle ?
+            </div>
+          </div>
+          <div class="axe-item">
+            <div class="axe-cat">Prochaine séance</div>
+            <div class="axe-question">Quel thème ou technique voulons-nous approfondir la prochaine fois ?</div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>Règle du feedback :</strong> tout retour commence par un élément positif et spécifique. Les
+          suggestions sont formulées à la première personne («&nbsp;j'aurais peut-être essayé…&nbsp;») et non comme des
+          prescriptions. L'absence de superviseur rend la bienveillance mutuelle d'autant plus essentielle.
+        </div>
+      </section>
+
+      <div class="divider">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+      <!-- SECTION 8 : RÉFÉRENCES -->
+      <section class="section" id="sec-refs">
+        <div class="section-label">VIII</div>
+        <h2>Références sélectionnées</h2>
+        <p style="font-size: 0.85rem; color: var(--ink-light); line-height: 1.8">
+          Bennett-Levy, J., McManus, F., Westling, B. E., &amp; Fennell, M. (2009). Acquiring and refining CBT skills
+          and competencies. <em>Behavioural and Cognitive Psychotherapy</em>, 37(1), 1–20.<br />
+          Crowe, A. (2014). Teaching psychotherapy skills with a semester-long role play.
+          <em>Journal of Psychotherapy Integration</em>, 24(3).<br />
+          Prasko, J. et al. (2023). Role-playing in cognitive behavioral supervision.
+          <em>Neuroendocrinology Letters</em>, 44(2), 74–85.<br />
+          Rønning, S. B., &amp; Bjørkly, S. (2019). The use of clinical role-play and reflection in learning therapeutic
+          communication skills in mental health education. <em>Advances in Medical Education and Practice</em>, 10,
+          415–425.<br />
+          MHPSS Hub / Psychosocial Centre (2024). <em>Role Play Guidance for Facilitators of MHPSS Trainings</em>.
+        </p>
+      </section>
+    </div>
+    <!-- /page-wrap -->
+
+    <script src="https://unpkg.com/smartquotes@2.3.2/dist/smartquotes.js"></script>
+    <script>
+      function drawRoles() {
+        const roles = ["Psychothérapeute", "Patient", "Observateur"]
+        const participants = ["Participant A", "Participant B", "Participant C"]
+
+        // Shuffle roles
+        const shuffled = [...roles].sort(() => Math.random() - 0.5)
+
+        const chips = ["chip-a", "chip-b", "chip-c"]
+        chips.forEach((id, i) => {
+          document.getElementById(id).classList.add("assigned")
+        })
+
+        const resultHtml = participants
+          .map((p, i) => `<strong>${p}</strong> → <span>${shuffled[i]}</span>`)
+          .join(" &nbsp;·&nbsp; ")
+
+        document.getElementById("draw-result").innerHTML = resultHtml
+      }
+
+      if (typeof smartquotes === "function") {
+        smartquotes()
+      }
+    </script>
+  </body>
+</html>
