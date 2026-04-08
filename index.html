@@ -3,10 +3,407 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Accueil</title>
+    <title>Formation entre pairs en TCC</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/smartquotes@2.3.2/dist/smartquotes.js"></script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --ink: #1a1a18;
+        --paper: #f5f1eb;
+        --accent: #8b3a2a;
+        --rule: #c8bfb0;
+        --soft: #e8e2d9;
+        --muted: #6b6358;
+      }
+
+      html {
+        font-size: 18px;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Source Serif 4", Georgia, serif;
+        font-weight: 300;
+        line-height: 1.75;
+        min-height: 100vh;
+      }
+
+      /* ── HEADER ── */
+      header {
+        border-bottom: 1px solid var(--rule);
+        padding: 3.5rem 2rem 3rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--accent);
+      }
+
+      .kicker {
+        font-family: "Source Serif 4", serif;
+        font-weight: 400;
+        font-size: 0.7rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 1.2rem;
+      }
+
+      h1 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        font-weight: 600;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+        max-width: 680px;
+        margin: 0 auto 1.2rem;
+      }
+
+      .subtitle {
+        font-style: italic;
+        font-size: 1.05rem;
+        color: var(--muted);
+        max-width: 520px;
+        margin: 0 auto;
+      }
+
+      /* ── LAYOUT ── */
+      main {
+        max-width: 740px;
+        margin: 0 auto;
+        padding: 4rem 2rem 6rem;
+      }
+
+      /* ── SECTIONS ── */
+      section {
+        margin-bottom: 4rem;
+        opacity: 0;
+        transform: translateY(18px);
+        animation: fadeUp 0.7s ease forwards;
+      }
+      section:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      section:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      section:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      section:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+      section:nth-child(5) {
+        animation-delay: 0.5s;
+      }
+      section:nth-child(6) {
+        animation-delay: 0.6s;
+      }
+      section:nth-child(7) {
+        animation-delay: 0.7s;
+      }
+
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h2 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 1.2rem;
+        padding-bottom: 0.6rem;
+        border-bottom: 1px solid var(--rule);
+        color: var(--ink);
+      }
+
+      h3 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-weight: 400;
+        font-style: italic;
+        font-size: 1.05rem;
+        color: var(--accent);
+        margin: 1.8rem 0 0.8rem;
+      }
+
+      p {
+        margin-bottom: 1rem;
+        color: var(--ink);
+      }
+
+      /* ── LIST ITEMS ── */
+      .item-list {
+        list-style: none;
+        margin: 0.5rem 0 1rem;
+      }
+      .item-list li {
+        padding: 0.55rem 0 0.55rem 1.4rem;
+        border-bottom: 1px solid var(--soft);
+        position: relative;
+        font-size: 0.95rem;
+        color: var(--ink);
+      }
+      .item-list li::before {
+        content: "—";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-weight: 400;
+      }
+
+      /* ── CALLOUT BOX ── */
+      .callout {
+        background: var(--soft);
+        border-left: 3px solid var(--accent);
+        padding: 1.4rem 1.6rem;
+        margin: 1.5rem 0;
+        font-size: 0.95rem;
+      }
+      .callout strong {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 0.4rem;
+        color: var(--accent);
+        letter-spacing: 0.04em;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+      }
+
+      /* ── TWO COL ── */
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+      .col-card {
+        background: var(--soft);
+        padding: 1.4rem 1.4rem 1.2rem;
+        border-top: 2px solid var(--accent);
+      }
+      .col-card h3 {
+        margin-top: 0;
+        margin-bottom: 0.8rem;
+      }
+      @media (max-width: 580px) {
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ── ATELIERS LINKS ── */
+      .ateliers-links {
+        margin-top: 1rem;
+      }
+      .ateliers-links p {
+        margin-bottom: 0.55rem;
+      }
+      .ateliers-links a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid var(--rule);
+        font-size: 0.95rem;
+        transition: border-color 0.2s;
+      }
+      .ateliers-links a:hover {
+        border-color: var(--accent);
+      }
+
+      /* ── CONTACT SECTION ── */
+      .contact-section {
+        background: var(--ink);
+        color: var(--paper);
+        padding: 3rem 2rem;
+        text-align: center;
+        margin: 0 -2rem -6rem;
+      }
+      .contact-section h2 {
+        font-family: "Playfair Display", serif;
+        color: var(--paper);
+        border-color: #3a3a38;
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
+      }
+      .contact-section p {
+        color: #c8bfb0;
+        font-size: 0.95rem;
+        margin-bottom: 1.6rem;
+      }
+      .contact-name {
+        font-size: 1rem;
+        color: #c8bfb0;
+        margin-bottom: 1rem;
+        font-style: italic;
+      }
+
+      .mail-link {
+        display: inline-block;
+        border: 1px solid var(--accent);
+        color: var(--paper);
+        text-decoration: none;
+        padding: 0.75rem 2rem;
+        font-size: 0.85rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-family: "Source Serif 4", serif;
+        font-weight: 400;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .mail-link:hover {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      /* ── RULE ORNAMENT ── */
+      .ornament {
+        text-align: center;
+        color: var(--rule);
+        font-size: 1.2rem;
+        letter-spacing: 0.5rem;
+        margin: 2rem 0;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        background: #111110;
+        color: #555;
+        text-align: center;
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        padding: 1.2rem;
+      }
+    </style>
   </head>
   <body>
-    <p><a href="2020-04-10.html">Instructions du suivant</a></p>
-    <p><a href="2026-03-27.html">Instructions du 27/03/2026</a></p>
+    <header>
+      <p class="kicker">Initiative entre pairs à Bruxelles</p>
+      <h1>Groupe d'autoformation en thérapie cognitive et comportementale</h1>
+      <p class="subtitle">
+        Une démarche collective pour des psychologues souhaitant s'autoformer sérieusement aux techniques TCC
+      </p>
+    </header>
+
+    <main>
+      <section>
+        <h2>Pourquoi cette initiative ?</h2>
+        <p>
+          En Belgique, le troisième cycle en TCC constitue la voie reconnue pour acquérir une maîtrise rigoureuse de ces
+          techniques. Elle dure trois ans, coûte plusieurs milliers d'euros, et son accès reste limité pour de nombreux
+          professionnels.
+        </p>
+        <p>
+          Cette réalité pose une question éthique directe&nbsp;: comment pratiquer des techniques issues de la TCC
+          auprès de patients sans y avoir été formé de manière suffisante&nbsp;? Une formation mutuelle constitue notre
+          réponse concrète à cette question, fondée sur l'engagement collectif et la responsabilité professionnelle.
+        </p>
+      </section>
+
+      <div class="ornament">* * *</div>
+
+      <section>
+        <h2>Un programme structuré sur deux axes</h2>
+        <div class="two-col">
+          <div class="col-card">
+            <h3>Axe théorique</h3>
+            <ul class="item-list">
+              <li>Présentations mutuelles sur les concepts fondamentaux</li>
+              <li>Lectures collectives d'ouvrages de référence</li>
+              <li>Présentation et discussion d'articles scientifiques récents</li>
+              <li>Ressources issues de plateformes reconnues</li>
+            </ul>
+          </div>
+          <div class="col-card">
+            <h3>Axe pratique</h3>
+            <ul class="item-list">
+              <li>Jeux de rôle pour l'entraînement aux techniques</li>
+              <li>Analyses réflexives en groupe sur des situations cliniques</li>
+              <li>Recours potentiel à une supervision externe, selon les attentes du groupe</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <a
+        href="https://www.apa.org/pubs/books/deliberate-practice-cognitive-behavioral-therapy"
+        style="display: block; max-width: 540px; margin: 0 auto; margin-bottom: 50px"
+      >
+        <img
+          src="output.jpg"
+          alt="Deliberate Practice in Cognitive Behavioral Therapy"
+          style="width: 100%; height: auto; display: block"
+        />
+      </a>
+      <section>
+        <h2>Ateliers de jeux de rôle</h2>
+        <p>
+          Les séances pratiques se déroulent en présentiel. Les participants s'entraînent aux techniques TCC en jouant
+          alternativement les rôles de thérapeute, patient et observateur, avant d'analyser collectivement ce qui s'est
+          passé.
+        </p>
+        <div class="ateliers-links">
+          <p><a href="2026-04-10.html">Instructions de l'atelier suivant</a></p>
+          <p><a href="2026-03-27.html">Instructions du 27/03/2026</a></p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ce que cette formation est — et ce qu'elle n'est pas</h2>
+        <div class="callout">
+          <strong>Limites assumées</strong>
+          Cette formation ne délivre aucune certification officielle. Elle n'est pas encadrée par un·e superviseur·e
+          expérimenté·e. Ces limites sont réelles et doivent être intégrées par chaque participant.
+        </div>
+        <p>
+          En contrepartie, la formation est entièrement auto-administrée&nbsp;: aucun frais d'inscription, aucun coût.
+          Elle repose sur l'engagement et la rigueur de ses participants, motivés par une exigence éthique vis-à-vis de
+          leur pratique clinique.
+        </p>
+      </section>
+
+      <section>
+        <h2>Fonctionnement du groupe</h2>
+        <p>
+          Le groupe vise une dizaine de participants. Les décisions concernant le contenu, le rythme et l'organisation
+          sont prises collectivement à l'aide d'outils de gouvernance participative&nbsp;: chaque membre contribue
+          activement à la vie du groupe.
+        </p>
+      </section>
+
+      <div class="ornament">* * *</div>
+
+      <section class="contact-section">
+        <h2>Rejoindre le groupe</h2>
+        <p>Cette démarche vous intéresse ou vous souhaitez en savoir davantage&nbsp;?</p>
+        <p class="contact-name">Contactez Grégoire Leeuwerck</p>
+        <a class="mail-link" href="mailto:formation.tcc@proton.me">formation.tcc@proton.me</a>
+      </section>
+    </main>
+
+    <footer>Formation TCC entre pairs à Bruxelles</footer>
+    <script src="scripts.js"></script>
   </body>
 </html>
